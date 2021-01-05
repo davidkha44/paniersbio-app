@@ -16,7 +16,7 @@ const WEEKLYVEGGIES = [
   new weeklyVeggies(
     3,
     "Potatoes",
-    "https://images.pexels.com/photos/3650647/pexels-photo-3650647.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
+    "https://images.pexels.com/photos/144248/potatoes-vegetables-erdfrucht-bio-144248.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
     "500g"
   ),
   new weeklyVeggies(
