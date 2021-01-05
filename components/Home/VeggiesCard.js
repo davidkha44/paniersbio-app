@@ -1,18 +1,25 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableNativeFeedback, View } from "react-native";
 import { Card } from "react-native-paper";
 
 const VeggiesCard = ({ name, quantity, imageUrl }) => {
   return (
-    <Card style={styles.container}>
-      <Card.Title
-        title={name}
-        subtitle={quantity}
-        titleStyle={styles.cardTitle}
-        subtitleStyle={styles.cardSubtitle}
-      />
-      <Card.Cover source={{ uri: `${imageUrl}` }} style={styles.image} />
-    </Card>
+    <TouchableNativeFeedback
+      onPress={() => console.log(`${name} card pressed !`)}
+      useForeground={true}
+    >
+      <View style={styles.container}>
+        <Card>
+          <Card.Title
+            title={name}
+            subtitle={quantity}
+            titleStyle={styles.cardTitle}
+            subtitleStyle={styles.cardSubtitle}
+          />
+          <Card.Cover source={{ uri: `${imageUrl}` }} style={styles.image} />
+        </Card>
+      </View>
+    </TouchableNativeFeedback>
   );
 };
 
