@@ -7,6 +7,7 @@ import HomeScreen from "../screens/HomeScreen";
 import SubscriptionScreen from "../screens/SubscriptionScreen";
 import FavouriteScreen from "../screens/FavouriteScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import RecipeScreen from "../screens/RecipeScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -28,6 +29,9 @@ const AppNavigation = () => {
             case "Favourites":
               iconName = "heart";
               break;
+            case "Recipes":
+              iconName = "restaurant";
+              break;
             case "Settings":
               iconName = "settings";
               break;
@@ -46,8 +50,9 @@ const AppNavigation = () => {
       barStyle={{ backgroundColor: "white" }}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Subscription" component={SubscriptionScreen} />
+      <Tab.Screen name="Recipes" component={RecipeScreen} />
       <Tab.Screen name="Favourites" component={FavouriteScreen} />
+      <Tab.Screen name="Subscription" component={SubscriptionScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
