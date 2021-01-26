@@ -16,7 +16,12 @@ const VeggiesCard = ({ name, quantity, imageUrl }) => {
             titleStyle={styles.cardTitle}
             subtitleStyle={styles.cardSubtitle}
           />
-          <Card.Cover source={{ uri: `${imageUrl}` }} style={styles.image} />
+          <Card.Cover
+            source={{
+              uri: `http://ec2-15-237-49-138.eu-west-3.compute.amazonaws.com:8080/${imageUrl}`,
+            }}
+            style={styles.image}
+          />
         </Card>
       </View>
     </TouchableNativeFeedback>
