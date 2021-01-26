@@ -9,7 +9,8 @@ class WeeklyRecipe {
     prep_time,
     baking_time,
     difficulty,
-    rate
+    rating,
+    isFavourite
   ) {
     this._id = _id;
     this.title = title;
@@ -20,7 +21,8 @@ class WeeklyRecipe {
     this.prep_time = prep_time;
     this.baking_time = baking_time;
     this.difficulty = difficulty;
-    this.rate = rate;
+    this.rating = rating;
+    this.isFavourite = isFavourite;
   }
 }
 
