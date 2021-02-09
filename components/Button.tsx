@@ -8,9 +8,10 @@ interface Props {
   isFilled: boolean;
   height: number;
   width: number;
+  onPress: () => void;
 }
 
-const Button = ({ title, isFilled, height, width }: Props) => {
+const Button = ({ title, isFilled, height, width, onPress }: Props) => {
   const buttonStyle = {
     height: height,
     width: width,
@@ -18,7 +19,7 @@ const Button = ({ title, isFilled, height, width }: Props) => {
     borderColor: isFilled ? '' : Colors.primary,
   };
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <View style={[styles.button, buttonStyle]}>
         <Text style={styles.text}>{title}</Text>
       </View>
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 5,
+    marginVertical: 5,
   },
   text: {
     fontSize: 20,
