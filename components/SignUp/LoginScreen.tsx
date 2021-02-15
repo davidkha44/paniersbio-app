@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, StyleSheet, TextInput, Text, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -10,13 +10,20 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
+  const ref_input2 = useRef(null);
+
+  const onSubmit = () => {
+    const textInput = ref_input2.current as any;
+    textInput.focus();
+  };
+
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('../../assets/images/farmer.png')}
-        style={styles.image}
-      />
-      <DismissKeyboard>
+    <DismissKeyboard>
+      <View style={styles.container}>
+        <Image
+          source={require('../../assets/images/farmer.png')}
+          style={styles.image}
+        />
         <View style={styles.textInputView}>
           <TextInput
             style={styles.textInputStyle}
@@ -24,6 +31,9 @@ const LoginScreen = () => {
             value={userEmail}
             placeholder="Email"
             keyboardType="email-address"
+            returnKeyType="next"
+            onSubmitEditing={() => onSubmit()}
+            blurOnSubmit={false}
           />
           <TextInput
             style={styles.textInputStyle}
@@ -31,6 +41,7 @@ const LoginScreen = () => {
             value={userPassword}
             placeholder="Password"
             secureTextEntry={true}
+            ref={ref_input2}
           />
           <Text style={styles.description}>
             Pas encore de compte ?{' '}
@@ -42,8 +53,8 @@ const LoginScreen = () => {
           </Text>
           <Button title="Se connecter" onPress={() => console.log('Pressed')} />
         </View>
-      </DismissKeyboard>
-    </View>
+      </View>
+    </DismissKeyboard>
   );
 };
 
