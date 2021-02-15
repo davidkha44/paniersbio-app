@@ -1,41 +1,42 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 import Colors from '../constants/Colors';
 
 interface Props {
   title: string;
-  isFilled: boolean;
-  height: number;
-  width: number;
   onPress: () => void;
 }
 
-const Button = ({ title, isFilled, height, width, onPress }: Props) => {
-  const buttonStyle = {
-    height: height,
-    width: width,
-    backgroundColor: isFilled ? Colors.primary : '',
-    borderColor: isFilled ? '' : Colors.primary,
-  };
+const Button = ({ title, onPress }: Props) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={[styles.button, buttonStyle]}>
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        colors={[Colors.accent, Colors.tertiary, Colors.primary]}
+        style={styles.button}>
         <Text style={styles.text}>{title}</Text>
-      </View>
+      </LinearGradient>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 100,
+    borderRadius: 5,
+    height: 48,
+    width: 200,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 5,
+    marginVertical: 10,
+    alignSelf: 'center',
   },
   text: {
     fontSize: 20,
+    fontFamily: 'OpenSans-SemiBold',
+    color: 'white',
   },
 });
 
