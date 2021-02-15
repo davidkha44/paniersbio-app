@@ -4,6 +4,7 @@ import { Title } from 'react-native-paper';
 import axios from 'axios';
 
 import VeggiesCard from './VeggiesCard';
+import { API_KEY } from '@env';
 
 interface veggies {
   _id: number;
@@ -16,9 +17,7 @@ const WeeklyVeg = () => {
   const [WEEKLYVEGGIES, setWEEKLYVEGGIES] = useState<veggies[]>([]);
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(
-        'http://ec2-15-237-49-138.eu-west-3.compute.amazonaws.com:8080/api/panier/week/',
-      );
+      const result = await axios.get(`${API_KEY}/api/panier/week/`);
       setWEEKLYVEGGIES(result.data.vegetables);
     };
     fetchData();
