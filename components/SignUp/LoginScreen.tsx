@@ -39,7 +39,7 @@ const LoginScreen = () => {
             style={styles.textInputStyle}
             onChangeText={(text) => setUserPassword(text)}
             value={userPassword}
-            placeholder="Password"
+            placeholder="Mot de passe"
             secureTextEntry={true}
             ref={ref_input2}
           />
