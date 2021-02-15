@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState, useCallback, createContext } from 'react';
+import React, { useState, useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -7,16 +7,7 @@ import mongodb from 'mongodb';
 
 import AppNavigation from './components/AppNavigation';
 import Auth from './components/Auth';
-
-interface AuthContextInterface {
-  isLoggedIn: Boolean;
-  userId: mongodb.ObjectID | null;
-  token: string | null;
-  login: (uid: any, token: any) => void;
-  logout: () => void;
-}
-
-const AuthContext = createContext({} as AuthContextInterface);
+import AuthContext from './components/SignUp/AuthContext';
 
 export default function App() {
   const [token, setToken] = useState<string | null>(null);

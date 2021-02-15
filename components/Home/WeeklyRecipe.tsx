@@ -26,7 +26,8 @@ const WeeklyRecipe = () => {
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios.get(`${API_KEY}/api/recipe/week/`);
-      setWEEKLYRECIPES(result.data.recipes);
+      let data = result.data;
+      setWEEKLYRECIPES(data.recipes);
     };
     fetchData();
   }, []);

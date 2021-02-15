@@ -1,20 +1,34 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { View, StyleSheet, TextInput, Text, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AuthContext from './AuthContext';
 
 import Colors from '../../constants/Colors';
 import Button from '../Button';
 import DismissKeyboard from '../DismissKeyboard';
+import axios from 'axios';
+import { API_KEY } from '@env';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const ref_input2 = useRef(null);
+  const auth = useContext(AuthContext);
 
   const onSubmit = () => {
     const textInput = ref_input2.current as any;
     textInput.focus();
+  };
+
+  const login = async () => {
+    let res = await axios.post(`${API_KEY}/api/user/login/`, {
+      email: userEmail,
+      password: userPassword,
+    });
+
+    let data = res.data;
+    auth.login(data._id, data.token);
   };
 
   return (
@@ -42,6 +56,7 @@ const LoginScreen = () => {
             placeholder="Mot de passe"
             secureTextEntry={true}
             ref={ref_input2}
+            onSubmitEditing={() => login()}
           />
           <Text style={styles.description}>
             Pas encore de compte ?{' '}
@@ -51,7 +66,7 @@ const LoginScreen = () => {
               Inscrivez-vous !
             </Text>
           </Text>
-          <Button title="Se connecter" onPress={() => console.log('Pressed')} />
+          <Button title="Se connecter" onPress={() => login()} />
         </View>
       </View>
     </DismissKeyboard>

@@ -1,10 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { View, Text, StyleSheet, Image, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AuthContext from './AuthContext';
 
 import Colors from '../../constants/Colors';
 import Button from '../Button';
 import DismissKeyboard from '../DismissKeyboard';
+import { API_KEY } from '@env';
+import axios from 'axios';
 
 const SignUpScreen = () => {
   const navigation = useNavigation();
@@ -13,12 +16,27 @@ const SignUpScreen = () => {
   const [checkPassword, setCheckPassword] = useState('');
   const ref_input2 = useRef(null);
   const ref_input3 = useRef(null);
+  const auth = useContext(AuthContext);
 
   const onSubmit = (ref: React.MutableRefObject<null>) => {
     const textInput = ref.current as any;
     textInput.focus();
   };
 
+  const signUp = async () => {
+    await axios.post(`${API_KEY}/api/user/signup/`, {
+      email: userEmail,
+      password: userPassword,
+    });
+
+    let res = await axios.post(`${API_KEY}/api/user/login/`, {
+      email: userEmail,
+      password: userPassword,
+    });
+
+    let data = res.data;
+    auth.login(data._id, data.token);
+  };
   return (
     <DismissKeyboard>
       <View style={styles.container}>
@@ -46,6 +64,7 @@ const SignUpScreen = () => {
             ref={ref_input2}
             returnKeyType="next"
             onSubmitEditing={() => onSubmit(ref_input3)}
+            blurOnSubmit={false}
           />
           <TextInput
             style={styles.textInputStyle}
@@ -54,6 +73,7 @@ const SignUpScreen = () => {
             placeholder="Vérification"
             secureTextEntry={true}
             ref={ref_input3}
+            onSubmitEditing={() => signUp()}
           />
           <Text style={styles.description}>
             Déjà un compte ?{' '}
@@ -63,7 +83,7 @@ const SignUpScreen = () => {
               Connectez-vous !
             </Text>
           </Text>
-          <Button title="S'incrire" onPress={() => console.log('Pressed')} />
+          <Button title="S'incrire" onPress={() => signUp()} />
         </View>
       </View>
     </DismissKeyboard>
@@ -80,6 +100,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: Colors.inactive,
     paddingLeft: 25,
+    marginBottom: 10,
     height: 48,
   },
   textInputView: {

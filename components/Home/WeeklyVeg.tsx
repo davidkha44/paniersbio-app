@@ -18,7 +18,8 @@ const WeeklyVeg = () => {
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios.get(`${API_KEY}/api/panier/week/`);
-      setWEEKLYVEGGIES(result.data.vegetables);
+      let data = result.data;
+      setWEEKLYVEGGIES(data.vegetables);
     };
     fetchData();
   }, []);
