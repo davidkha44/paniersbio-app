@@ -6,13 +6,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import mongodb from 'mongodb';
 
 import AppNavigation from './components/AppNavigation';
-import Auth from './components/Auth';
+import AuthNavigation from './components/AuthNavigation';
 import AuthContext from './components/SignUp/AuthContext';
 
 export default function App() {
   const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<mongodb.ObjectId | null>(null);
 
+  // eslint-disable-next-line no-shadow
   const login = useCallback((uid, token) => {
     setToken(token);
     setUserId(uid);
@@ -27,7 +28,7 @@ export default function App() {
   if (token) {
     navi = <AppNavigation />;
   } else {
-    navi = <Auth />;
+    navi = <AuthNavigation />;
   }
 
   return (

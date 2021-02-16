@@ -7,7 +7,7 @@ import SignUpScreen from './SignUp/SignUpScreen';
 
 const Stack = createStackNavigator();
 
-const Auth = () => {
+const AuthNavigation = () => {
   return (
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="Initial" component={InitialScreen} />
@@ -17,4 +17,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default AuthNavigation;
