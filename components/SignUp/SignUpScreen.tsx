@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext } from 'react';
-import { View, Text, StyleSheet, Image, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from './AuthContext';
 
@@ -18,12 +18,60 @@ const SignUpScreen = () => {
   const ref_input3 = useRef(null);
   const auth = useContext(AuthContext);
 
+  const [emailStyle, setEmailStyle] = useState({
+    borderColor: Colors.inactive,
+    color: 'black',
+  });
+  const [passwordStyle, setPasswordStyle] = useState({
+    borderColor: Colors.inactive,
+    color: 'black',
+  });
+  const [checkPasswordStyle, setCheckPasswordStyle] = useState({
+    borderColor: Colors.inactive,
+    color: 'black',
+  });
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [checkPasswordError, setCheckPasswordError] = useState('');
+
   const onSubmit = (ref: React.MutableRefObject<null>) => {
     const textInput = ref.current as any;
     textInput.focus();
   };
 
   const signUp = async () => {
+    let error = 0;
+    if (userPassword.length === 0) {
+      setPasswordStyle({ borderColor: 'red', color: 'red' });
+      setPasswordError('Veuillez rentrer un mot de passe');
+      error = -1;
+    } else if (userPassword.length < 5) {
+      setPasswordStyle({ borderColor: 'red', color: 'red' });
+      setPasswordError('Le mot de passe doit avoir au moins 5 charactères');
+      error = -1;
+    } else {
+      setPasswordStyle({ borderColor: Colors.inactive, color: 'black' });
+      setPasswordError('');
+    }
+    if (/\S+@\S+\.\S+/.test(userEmail)) {
+      setEmailStyle({ borderColor: Colors.inactive, color: 'black' });
+      setEmailError('');
+    } else {
+      setEmailStyle({ borderColor: 'red', color: 'red' });
+      setEmailError("Ce n'est pas un email valide");
+      error = -1;
+    }
+    if (checkPassword.localeCompare(userPassword) === 0) {
+      setCheckPasswordStyle({ borderColor: Colors.inactive, color: 'black' });
+      setCheckPasswordError('');
+    } else {
+      setCheckPasswordStyle({ borderColor: Colors.inactive, color: 'red' });
+      setCheckPasswordError('Les mots de passe ne correspondent pas');
+      error = -1;
+    }
+    if (error !== 0) {
+      return -1;
+    }
     await axios.post(`${API_KEY}/api/user/signup/`, {
       email: userEmail,
       password: userPassword,
@@ -40,50 +88,59 @@ const SignUpScreen = () => {
   return (
     <DismissKeyboard>
       <View style={styles.container}>
-        <Image
-          source={require('../../assets/images/countryside.png')}
-          style={styles.image}
-        />
-        <View style={styles.textInputView}>
-          <TextInput
-            style={styles.textInputStyle}
-            onChangeText={(text) => setUserEmail(text)}
-            value={userEmail}
-            placeholder="Email"
-            keyboardType="email-address"
-            returnKeyType="next"
-            onSubmitEditing={() => onSubmit(ref_input2)}
-            blurOnSubmit={false}
-          />
-          <TextInput
-            style={styles.textInputStyle}
-            onChangeText={(text) => setUserPassword(text)}
-            value={userPassword}
-            placeholder="Mot de passe"
-            secureTextEntry={true}
-            ref={ref_input2}
-            returnKeyType="next"
-            onSubmitEditing={() => onSubmit(ref_input3)}
-            blurOnSubmit={false}
-          />
-          <TextInput
-            style={styles.textInputStyle}
-            onChangeText={(text) => setCheckPassword(text)}
-            value={checkPassword}
-            placeholder="Vérification"
-            secureTextEntry={true}
-            ref={ref_input3}
-            onSubmitEditing={() => signUp()}
-          />
-          <Text style={styles.description}>
-            Déjà un compte ?{' '}
-            <Text
-              style={styles.textSignUp}
-              onPress={() => navigation.navigate('Login')}>
-              Connectez-vous !
+        <View style={styles.child}>
+          <Text style={styles.title}>Inscription</Text>
+          <Text style={styles.subtitle}>Créez votre compte</Text>
+          <View>
+            <TextInput
+              style={styles.textInputStyle}
+              onChangeText={(text) => setUserEmail(text)}
+              value={userEmail}
+              placeholder="Email"
+              keyboardType="email-address"
+              returnKeyType="next"
+              onSubmitEditing={() => onSubmit(ref_input2)}
+              blurOnSubmit={false}
+            />
+            {emailError.length !== 0 ? (
+              <Text style={emailStyle}>{emailError}</Text>
+            ) : null}
+            <TextInput
+              style={styles.textInputStyle}
+              onChangeText={(text) => setUserPassword(text)}
+              value={userPassword}
+              placeholder="Mot de passe"
+              secureTextEntry={true}
+              ref={ref_input2}
+              returnKeyType="next"
+              onSubmitEditing={() => onSubmit(ref_input3)}
+              blurOnSubmit={false}
+            />
+            {passwordError.length !== 0 ? (
+              <Text style={passwordStyle}>{passwordError}</Text>
+            ) : null}
+            <TextInput
+              style={styles.textInputStyle}
+              onChangeText={(text) => setCheckPassword(text)}
+              value={checkPassword}
+              placeholder="Mot de passe"
+              secureTextEntry={true}
+              ref={ref_input3}
+              onSubmitEditing={() => signUp()}
+            />
+            {checkPasswordError.length !== 0 ? (
+              <Text style={checkPasswordStyle}>{checkPasswordError}</Text>
+            ) : null}
+            <Text style={styles.description}>
+              Déjà un compte ?{' '}
+              <Text
+                style={styles.textSignUp}
+                onPress={() => navigation.navigate('Login')}>
+                Connectez-vous !
+              </Text>
             </Text>
-          </Text>
-          <Button title="S'incrire" onPress={() => signUp()} />
+            <Button title="S'incrire" onPress={() => signUp()} />
+          </View>
         </View>
       </View>
     </DismissKeyboard>
@@ -95,6 +152,28 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  child: {
+    width: '80%',
+  },
+  title: {
+    fontFamily: 'OpenSans-SemiBold',
+    fontSize: 24,
+    color: Colors.primary,
+    marginTop: 50,
+    marginBottom: 10,
+    paddingLeft: 25,
+  },
+  subtitle: {
+    marginBottom: '15%',
+    fontSize: 16,
+    paddingLeft: 25,
+  },
+  description: {
+    alignSelf: 'center',
+    marginTop: 20,
+    marginBottom: 30,
+    fontSize: 12,
+  },
   textInputStyle: {
     borderBottomWidth: 1,
     borderRadius: 10,
@@ -103,20 +182,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     height: 48,
   },
-  textInputView: {
-    flex: 1,
-  },
   image: {
     width: '100%',
     height: '40%',
-    marginBottom: 15,
-  },
-  description: {
-    marginVertical: 20,
-    marginBottom: 20,
   },
   textSignUp: {
-    fontFamily: 'OpenSans-Bold',
+    fontFamily: 'OpenSans-SemiBold',
     color: Colors.primary,
   },
 });

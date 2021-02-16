@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Button from '../Button';
+import Colors from '../../constants/Colors';
 
 const InitialScreen = () => {
   const navigation = useNavigation();
@@ -11,6 +12,10 @@ const InitialScreen = () => {
         source={require('../../assets/images/gardening.png')}
         style={styles.image}
       />
+      <Text style={styles.title}>Bienvenu</Text>
+      <Text style={styles.description}>
+        Inscrivez-vous ou connectez-vous pour utiliser l'application
+      </Text>
       <Button
         title="Se connecter"
         onPress={() => navigation.navigate('Login')}
@@ -27,8 +32,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
   },
+  title: {
+    fontFamily: 'OpenSans-SemiBold',
+    fontSize: 24,
+    color: Colors.primary,
+    marginBottom: 20,
+  },
+  description: { width: '60%', marginBottom: 20, textAlign: 'center' },
   loginButton: {
     borderRadius: 100,
   },
