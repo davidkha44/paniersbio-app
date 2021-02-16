@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { Title } from 'react-native-paper';
 import axios from 'axios';
 import { API_KEY } from '@env';
+import AuthContext from '../SignUp/AuthContext';
 
 import RecipeCard from './RecipeCard';
 
@@ -23,14 +24,20 @@ interface recipe {
 
 const WeeklyRecipe = () => {
   const [WEEKLYRECIPES, setWEEKLYRECIPES] = useState<recipe[]>([]);
+  const auth = useContext(AuthContext);
+
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(`${API_KEY}/api/recipe/week/`);
+      const result = await axios.get(`${API_KEY}/api/recipe/week/`, {
+        headers: {
+          authorization: 'Bearer ' + auth.token,
+        },
+      });
       let data = result.data;
       setWEEKLYRECIPES(data.recipes);
     };
     fetchData();
-  }, []);
+  }, [auth.token]);
 
   const renderItem = ({ item }: { item: recipe }) => (
     <RecipeCard

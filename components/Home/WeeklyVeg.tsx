@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Title } from 'react-native-paper';
 import axios from 'axios';
+import AuthContext from '../SignUp/AuthContext';
 
 import VeggiesCard from './VeggiesCard';
 import { API_KEY } from '@env';
@@ -15,14 +16,20 @@ interface veggies {
 
 const WeeklyVeg = () => {
   const [WEEKLYVEGGIES, setWEEKLYVEGGIES] = useState<veggies[]>([]);
+  const auth = useContext(AuthContext);
+
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(`${API_KEY}/api/panier/week/`);
+      const result = await axios.get(`${API_KEY}/api/panier/week/`, {
+        headers: {
+          authorization: 'Bearer ' + auth.token,
+        },
+      });
       let data = result.data;
       setWEEKLYVEGGIES(data.vegetables);
     };
     fetchData();
-  }, []);
+  }, [auth.token]);
 
   return (
     <View>
