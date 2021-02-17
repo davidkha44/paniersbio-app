@@ -1,13 +1,18 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import Colors from '../constants/Colors';
 
 const SplashScreen = () => {
+  const navigation = useNavigation();
+  setTimeout(() => {
+    navigation.navigate('Initial');
+  }, 1000);
   return (
     <View>
       <LinearGradient
-        colors={['#00AE50', Colors.primary]}
+        colors={[Colors.accent, Colors.tertiary, Colors.primary]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.gradient}>
