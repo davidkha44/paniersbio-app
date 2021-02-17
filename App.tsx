@@ -24,11 +24,11 @@ export default function App() {
     setUserId(null);
   }, []);
 
-  let navi;
+  let NavComponent;
   if (token) {
-    navi = <AppNavigation />;
+    NavComponent = <AppNavigation />;
   } else {
-    navi = <AuthNavigation />;
+    NavComponent = <AuthNavigation />;
   }
 
   return (
@@ -41,7 +41,7 @@ export default function App() {
         logout: logout,
       }}>
       <PaperProvider settings={{ icon: (props) => <Ionicons {...props} /> }}>
-        <NavigationContainer>{navi}</NavigationContainer>
+        <NavigationContainer>{NavComponent}</NavigationContainer>
       </PaperProvider>
     </AuthContext.Provider>
   );
