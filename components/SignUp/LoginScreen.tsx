@@ -13,6 +13,8 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
+
+  //Style of the text input
   const [emailStyle, setEmailStyle] = useState({
     borderColor: Colors.inactive,
     color: 'black',
@@ -22,6 +24,7 @@ const LoginScreen = () => {
     color: 'black',
   });
 
+  //If text input not valid, display error message
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
@@ -131,8 +134,8 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: '40%',
-    marginBottom: 15,
+    height: 300,
+    resizeMode: 'contain',
   },
   description: {
     marginVertical: 20,
