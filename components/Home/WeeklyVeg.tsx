@@ -1,41 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Title } from 'react-native-paper';
-import axios from 'axios';
-import AuthContext from '../SignUp/AuthContext';
 
 import VeggiesCard from './VeggiesCard';
-import { API_KEY } from '@env';
 
-interface veggies {
-  _id: number;
-  name: string;
-  quantity: number;
-  imageUrl: string;
+interface Props {
+  weeklyVeggies: veggies[];
 }
 
-const WeeklyVeg = () => {
-  const [WEEKLYVEGGIES, setWEEKLYVEGGIES] = useState<veggies[]>([]);
-  const auth = useContext(AuthContext);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios.get(`${API_KEY}/api/panier/week/`, {
-        headers: {
-          authorization: 'Bearer ' + auth.token,
-        },
-      });
-      let data = result.data;
-      setWEEKLYVEGGIES(data.vegetables);
-    };
-    fetchData();
-  }, [auth.token]);
-
+const WeeklyVeg = ({ weeklyVeggies }: Props) => {
   return (
     <View>
       <Title style={styles.titleStyle}>Légumes de la semaine</Title>
       <View style={styles.vegListContainer}>
-        {WEEKLYVEGGIES.map((veggie) => (
+        {weeklyVeggies.map((veggie) => (
           <View key={veggie._id} style={styles.veggieContainer}>
             <VeggiesCard
               name={veggie.name}
