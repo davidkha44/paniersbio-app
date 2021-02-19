@@ -37,6 +37,8 @@ const styles = StyleSheet.create({
     width: '80%',
     borderRadius: 6,
     overflow: 'hidden',
+    marginVertical: 5,
+    alignSelf: 'center',
   },
   image: {
     position: 'absolute',

@@ -1,19 +1,27 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, View, ScrollView, Image, TextInput } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  TextInput,
+  FlatList,
+  Text,
+} from 'react-native';
 import axios from 'axios';
 import { API_KEY } from '@env';
 
 import AuthContext from '../../components/Auth/AuthContext';
-import WeeklyVeg from '../../components/Home/WeeklyVeg';
+import CardPlaceholder from '../../components/CardPlaceholder';
+import VeggiesCard from '../../components/Home/VeggiesCard';
+import DismissKeyboard from '../../components/DismissKeyboard';
 
 const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const onChangeSearch = (query: string) => setSearchQuery(query);
 
   const [WEEKLYVEGGIES, setWEEKLYVEGGIES] = useState<veggies[]>([]);
+  const [isFetched, setIsFetched] = useState(false);
   const auth = useContext(AuthContext);
-  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,11 +34,37 @@ const HomeScreen = () => {
       setWEEKLYVEGGIES(data.vegetables);
     };
     fetchData();
+    setTimeout(() => setIsFetched(true), 1000);
   }, [auth.token]);
 
+  const renderPlaceholders = () => {
+    return (
+      <View>
+        <CardPlaceholder />
+        <CardPlaceholder />
+        <CardPlaceholder />
+      </View>
+    );
+  };
+
+  const renderVegCard = ({ item }: { item: veggies }) => {
+    const { name, quantity, imageUrl } = item;
+    return <VeggiesCard name={name} quantity={quantity} imageUrl={imageUrl} />;
+  };
+
+  const renderList = () => {
+    return (
+      <FlatList
+        data={WEEKLYVEGGIES}
+        renderItem={renderVegCard}
+        keyExtractor={(item) => item._id.toString()}
+      />
+    );
+  };
+
   return (
-    <View>
-      <ScrollView>
+    <DismissKeyboard>
+      <View>
         <Image
           source={require('../../assets/images/countryside.png')}
           style={styles.image}
@@ -40,11 +74,12 @@ const HomeScreen = () => {
           onChangeText={onChangeSearch}
           value={searchQuery}
           style={styles.searchbar}
-          onFocus={() => navigation.navigate('Search')}
+          onFocus={() => console.log('Search')}
         />
-        <WeeklyVeg weeklyVeggies={WEEKLYVEGGIES} />
-      </ScrollView>
-    </View>
+        <Text style={styles.title}>Légumes de la semaine</Text>
+        {isFetched ? renderList() : renderPlaceholders()}
+      </View>
+    </DismissKeyboard>
   );
 };
 
@@ -67,6 +102,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 60,
     elevation: 1,
+  },
+  title: {
+    paddingLeft: '10%',
+    fontFamily: 'OpenSans-Bold',
+    fontSize: 18,
+    marginVertical: 10,
   },
 });
 
