@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, View, ScrollView, Image, TextInput } from 'react-native';
-
-import WeeklyVeg from '../../components/Home/WeeklyVeg';
-import axios from 'axios';
-import AuthContext from '../../components/Auth/AuthContext';
-import { API_KEY } from '@env';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { API_KEY } from '@env';
+
+import AuthContext from '../../components/Auth/AuthContext';
+import WeeklyVeg from '../../components/Home/WeeklyVeg';
 
 const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
