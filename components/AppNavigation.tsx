@@ -4,11 +4,11 @@ import { StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../constants/Colors';
 
-import HomeScreen from '../screens/HomeScreen';
-import SubscriptionScreen from '../screens/SubscriptionScreen';
-import FavouriteScreen from '../screens/FavouriteScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import RecipeScreen from '../screens/RecipeScreen';
+import HomeScreen from '../screens/App/HomeScreen';
+import SubscriptionScreen from '../screens/App/SubscriptionScreen';
+import FavouriteScreen from '../screens/App/FavouriteScreen';
+import SettingsScreen from '../screens/App/SettingsScreen';
+import RecipeScreen from '../screens/App/RecipeScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 

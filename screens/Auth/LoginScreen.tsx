@@ -1,11 +1,11 @@
 import React, { useState, useRef, useContext } from 'react';
 import { View, StyleSheet, TextInput, Text, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import AuthContext from './AuthContext';
+import AuthContext from '../../components/Auth/AuthContext';
 
 import Colors from '../../constants/Colors';
-import Button from '../Button';
-import DismissKeyboard from '../DismissKeyboard';
+import Button from '../../components/Button';
+import DismissKeyboard from '../../components/DismissKeyboard';
 import axios from 'axios';
 import { API_KEY } from '@env';
 

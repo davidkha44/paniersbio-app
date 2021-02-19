@@ -4,7 +4,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { Title } from 'react-native-paper';
 import axios from 'axios';
 import { API_KEY } from '@env';
-import AuthContext from '../SignUp/AuthContext';
+import AuthContext from '../Auth/AuthContext';
 
 import RecipeCard from './RecipeCard';
 

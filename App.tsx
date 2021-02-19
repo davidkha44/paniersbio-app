@@ -7,7 +7,7 @@ import mongodb from 'mongodb';
 
 import AppNavigation from './components/AppNavigation';
 import AuthNavigation from './components/AuthNavigation';
-import AuthContext from './components/SignUp/AuthContext';
+import AuthContext from './components/Auth/AuthContext';
 
 export default function App() {
   const [token, setToken] = useState<string | null>(null);

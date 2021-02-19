@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, View, ScrollView, Image, TextInput } from 'react-native';
 
-import WeeklyVeg from '../components/Home/WeeklyVeg';
+import WeeklyVeg from '../../components/Home/WeeklyVeg';
 import axios from 'axios';
-import AuthContext from '../components/SignUp/AuthContext';
+import AuthContext from '../../components/Auth/AuthContext';
 import { API_KEY } from '@env';
 import { useNavigation } from '@react-navigation/native';
 
@@ -32,7 +32,7 @@ const HomeScreen = () => {
     <View>
       <ScrollView>
         <Image
-          source={require('../assets/images/countryside.png')}
+          source={require('../../assets/images/countryside.png')}
           style={styles.image}
         />
         <TextInput
