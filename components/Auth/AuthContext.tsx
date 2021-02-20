@@ -3,7 +3,7 @@ import mongodb from 'mongodb';
 
 interface AuthContextInterface {
   isLoggedIn: Boolean;
-  userId: mongodb.ObjectID | null;
+  userId: mongodb.ObjectID | null | string;
   token: string | null;
   login: (uid: any, token: any) => void;
   logout: () => void;
