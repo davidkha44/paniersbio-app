@@ -12,7 +12,7 @@ import { API_KEY } from '@env';
 
 import AuthContext from '../../components/Auth/AuthContext';
 import CardPlaceholder from '../../components/CardPlaceholder';
-import VeggiesCard from '../../components/Home/VeggiesCard';
+import Card from '../../components/Card';
 import DismissKeyboard from '../../components/DismissKeyboard';
 
 const HomeScreen = () => {
@@ -49,7 +49,8 @@ const HomeScreen = () => {
 
   const renderVegCard = ({ item }: { item: veggies }) => {
     const { name, quantity, imageUrl } = item;
-    return <VeggiesCard name={name} quantity={quantity} imageUrl={imageUrl} />;
+    const url = `${API_KEY}/${imageUrl}`;
+    return <Card name={name} quantity={quantity} imageUrl={url} />;
   };
 
   const renderList = () => {

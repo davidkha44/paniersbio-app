@@ -41,7 +41,7 @@ export default function App() {
       }
     };
     checkToken();
-  }, [setToken, setUserId]);
+  }, []);
 
   let NavComponent;
   if (token) {

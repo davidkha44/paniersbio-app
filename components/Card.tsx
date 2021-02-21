@@ -6,7 +6,6 @@ import {
   TouchableNativeFeedback,
   View,
 } from 'react-native';
-import { API_KEY } from '@env';
 
 interface Props {
   name: string;
@@ -14,7 +13,7 @@ interface Props {
   imageUrl: string;
 }
 
-const VeggiesCard = ({ name, quantity, imageUrl }: Props) => {
+const Card = ({ name, quantity, imageUrl }: Props) => {
   return (
     <TouchableNativeFeedback
       onPress={() => console.log(`${name} card pressed !`)}
@@ -22,7 +21,7 @@ const VeggiesCard = ({ name, quantity, imageUrl }: Props) => {
       <View style={styles.container}>
         <ImageBackground
           source={{
-            uri: `${API_KEY}/${imageUrl}`,
+            uri: imageUrl,
           }}
           style={styles.image}>
           <Text style={styles.cardTitle}>{name}</Text>
@@ -62,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VeggiesCard;
+export default Card;
