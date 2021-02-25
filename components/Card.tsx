@@ -6,6 +6,7 @@ import {
   TouchableNativeFeedback,
   View,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 interface Props {
   name: string;
@@ -24,8 +25,12 @@ const Card = ({ name, quantity, imageUrl }: Props) => {
             uri: imageUrl,
           }}
           style={styles.image}>
-          <Text style={styles.cardTitle}>{name}</Text>
-          <Text style={styles.cardSubtitle}>{quantity}</Text>
+          <LinearGradient
+            colors={['rgba(255, 255, 255, 0.27)', 'rgba(0, 0, 0, 0.53)']}
+            style={styles.image}>
+            <Text style={styles.cardTitle}>{name}</Text>
+            <Text style={styles.cardSubtitle}>{quantity}</Text>
+          </LinearGradient>
         </ImageBackground>
       </View>
     </TouchableNativeFeedback>
@@ -34,9 +39,9 @@ const Card = ({ name, quantity, imageUrl }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
+    borderRadius: 6,
     height: 70,
     width: '80%',
-    borderRadius: 6,
     overflow: 'hidden',
     marginVertical: 5,
     alignSelf: 'center',
