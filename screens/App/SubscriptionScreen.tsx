@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
-import Card from '../../components/Card';
+import PriceCard from '../../components/PriceCard';
 
 interface subs {
   _id: number;
@@ -12,7 +12,7 @@ interface subs {
 const SubscriptionScreen = () => {
   const renderVegCard = ({ item }: { item: subs }) => {
     const { name, price, imageUrl } = item;
-    return <Card name={name} quantity={price} imageUrl={imageUrl} />;
+    return <PriceCard name={name} quantity={price} imageUrl={imageUrl} />;
   };
   const SUBSCRIPTION: subs[] = [
     {
