@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 200,
-    resizeMode: 'cover',
+    height: 150,
+    resizeMode: 'contain',
     alignItems: 'center',
     justifyContent: 'center',
   },

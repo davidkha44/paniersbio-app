@@ -1,17 +1,40 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  HeaderBackButton,
+} from '@react-navigation/stack';
 import HomeScreen from '../screens/App/HomeScreen';
 import SearchScreen from '../screens/App/Home/SearchScreen';
 import VeggieScreen from '../screens/App/Home/VeggieScreen';
+import { useNavigation } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 
 const HomeNavigation = () => {
+  const navigation = useNavigation();
+
   return (
-    <Stack.Navigator headerMode="none">
-      <Stack.Screen name="Home" component={HomeScreen} />
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Home"
+        component={HomeScreen}
+      />
       <Stack.Screen name="Search" component={SearchScreen} />
-      <Stack.Screen name="Veggie" component={VeggieScreen} />
+      <Stack.Screen
+        options={{
+          headerTitle: '',
+          headerTransparent: true,
+          headerLeft: () => (
+            <HeaderBackButton
+              tintColor="#fff"
+              onPress={() => navigation.navigate('Home')}
+            />
+          ),
+        }}
+        name="Veggie"
+        component={VeggieScreen}
+      />
     </Stack.Navigator>
   );
 };
