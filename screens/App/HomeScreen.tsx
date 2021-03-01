@@ -14,6 +14,7 @@ import AuthContext from '../../components/Auth/AuthContext';
 import CardPlaceholder from '../../components/CardPlaceholder';
 import Card from '../../components/Card';
 import DismissKeyboard from '../../components/DismissKeyboard';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -22,6 +23,7 @@ const HomeScreen = () => {
   const [WEEKLYVEGGIES, setWEEKLYVEGGIES] = useState<veggies[]>([]);
   const [isFetched, setIsFetched] = useState(false);
   const auth = useContext(AuthContext);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,7 +77,7 @@ const HomeScreen = () => {
           onChangeText={onChangeSearch}
           value={searchQuery}
           style={styles.searchbar}
-          onFocus={() => console.log('Search')}
+          onFocus={() => navigation.navigate('Search')}
         />
         <Text style={styles.title}>Légumes de la semaine</Text>
         {isFetched ? renderList() : renderPlaceholders()}

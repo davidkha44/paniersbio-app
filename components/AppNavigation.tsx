@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../constants/Colors';
 
-import HomeScreen from '../screens/App/HomeScreen';
+import HomeNavigation from '../components/HomeNavigation';
 import SubscriptionScreen from '../screens/App/SubscriptionScreen';
 import FavouriteScreen from '../screens/App/FavouriteScreen';
 import SettingsScreen from '../screens/App/SettingsScreen';
@@ -21,7 +21,7 @@ const AppNavigation = () => {
           let iconName: string;
           let iconColor: string = focused ? Colors.primary : Colors.inactive;
           switch (route.name) {
-            case 'Home':
+            case 'HomeNav':
               iconName = 'home';
               break;
             case 'Subscription':
@@ -46,7 +46,7 @@ const AppNavigation = () => {
       activeColor={Colors.primary}
       inactiveColor={Colors.inactive}
       barStyle={styles.barStyle}>
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="HomeNav" component={HomeNavigation} />
       <Tab.Screen name="Recipes" component={RecipeScreen} />
       <Tab.Screen name="Favourites" component={FavouriteScreen} />
       <Tab.Screen name="Subscription" component={SubscriptionScreen} />
