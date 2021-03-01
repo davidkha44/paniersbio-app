@@ -12,7 +12,7 @@ import { API_KEY } from '@env';
 
 import AuthContext from '../../components/Auth/AuthContext';
 import CardPlaceholder from '../../components/CardPlaceholder';
-import Card from '../../components/Card';
+import VeggieCard from '../../components/VeggieCard';
 import DismissKeyboard from '../../components/DismissKeyboard';
 import { useNavigation } from '@react-navigation/native';
 
@@ -52,7 +52,7 @@ const HomeScreen = () => {
   const renderVegCard = ({ item }: { item: veggies }) => {
     const { name, quantity, imageUrl } = item;
     const url = `${API_KEY}/${imageUrl}`;
-    return <Card name={name} quantity={quantity} imageUrl={url} />;
+    return <VeggieCard name={name} quantity={quantity} imageUrl={url} />;
   };
 
   const renderList = () => {
