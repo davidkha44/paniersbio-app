@@ -14,10 +14,10 @@ interface Props {
   imageUrl: string;
 }
 
-const Card = ({ name, quantity, imageUrl }: Props) => {
+const PriceCard = ({ name, quantity, imageUrl }: Props) => {
   return (
     <TouchableNativeFeedback
-      onPress={() => console.log(`${name} card pressed !`)}
+      onPress={() => console.log('Pressed')}
       useForeground={true}>
       <View style={styles.container}>
         <ImageBackground
@@ -66,4 +66,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Card;
+export default PriceCard;
