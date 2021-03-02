@@ -20,7 +20,11 @@ const HomeNavigation = () => {
         name="Home"
         component={HomeScreen}
       />
-      <Stack.Screen name="Search" component={SearchScreen} />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Search"
+        component={SearchScreen}
+      />
       <Stack.Screen
         options={{
           headerTitle: '',
