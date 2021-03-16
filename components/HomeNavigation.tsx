@@ -17,7 +17,7 @@ const HomeNavigation = () => {
     <Stack.Navigator>
       <Stack.Screen
         options={{ headerShown: false }}
-        name="Home"
+        name="HomeScreen"
         component={HomeScreen}
       />
       <Stack.Screen
@@ -32,7 +32,7 @@ const HomeNavigation = () => {
           headerLeft: () => (
             <HeaderBackButton
               tintColor="#fff"
-              onPress={() => navigation.navigate('Home')}
+              onPress={() => navigation.navigate('HomeScreen')}
             />
           ),
         }}

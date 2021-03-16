@@ -21,7 +21,7 @@ const AppNavigation = () => {
           let iconName: string;
           let iconColor: string = focused ? Colors.primary : Colors.inactive;
           switch (route.name) {
-            case 'HomeNav':
+            case 'Home':
               iconName = 'home';
               break;
             case 'Subscription':
@@ -46,7 +46,7 @@ const AppNavigation = () => {
       activeColor={Colors.primary}
       inactiveColor={Colors.inactive}
       barStyle={styles.barStyle}>
-      <Tab.Screen name="HomeNav" component={HomeNavigation} />
+      <Tab.Screen name="Home" component={HomeNavigation} />
       <Tab.Screen name="Recipes" component={RecipeScreen} />
       <Tab.Screen name="Favourites" component={FavouriteScreen} />
       <Tab.Screen name="Subscription" component={SubscriptionScreen} />
