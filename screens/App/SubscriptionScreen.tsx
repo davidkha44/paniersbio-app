@@ -1,40 +1,39 @@
 import React from 'react';
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import PaymentCard from '../../components/PaymentCard';
 import PriceCard from '../../components/PriceCard';
+import Colors from '../../constants/Colors';
 
 interface subs {
   _id: number;
   name: string;
+  subtitle: string;
   price: number;
-  imageUrl: string;
 }
 
 const SubscriptionScreen = () => {
   const renderVegCard = ({ item }: { item: subs }) => {
-    const { name, price, imageUrl } = item;
-    return <PriceCard name={name} quantity={price} imageUrl={imageUrl} />;
+    const { name, subtitle, price } = item;
+    return <PriceCard name={name} subtitle={subtitle} price={price} />;
   };
   const SUBSCRIPTION: subs[] = [
     {
       _id: 1,
       name: 'Panier unitaire',
+      subtitle: '1 Panier',
       price: 5,
-      imageUrl:
-        'https://images.pexels.com/photos/1300972/pexels-photo-1300972.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
     },
     {
       _id: 2,
       name: 'Abonnement 1 mois',
+      subtitle: '4 Paniers',
       price: 22,
-      imageUrl:
-        'https://images.pexels.com/photos/1300972/pexels-photo-1300972.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
     },
     {
       _id: 3,
       name: 'Abonnnement 4 mois',
+      subtitle: '16 Paniers',
       price: 80,
-      imageUrl:
-        'https://images.pexels.com/photos/1300972/pexels-photo-1300972.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
     },
   ];
   return (
@@ -49,6 +48,18 @@ const SubscriptionScreen = () => {
         renderItem={renderVegCard}
         keyExtractor={(item) => item._id.toString()}
       />
+      <View style={styles.payView}>
+        <PaymentCard
+          title="Payer avec Lydia"
+          image="lock-closed"
+          bgColor="#5C91C9"
+        />
+        <PaymentCard
+          title="Payer par carte"
+          image="card-outline"
+          bgColor={Colors.primary}
+        />
+      </View>
     </View>
   );
 };
@@ -65,6 +76,10 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans-Bold',
     fontSize: 18,
     marginVertical: 10,
+  },
+  payView: {
+    justifyContent: 'center',
+    marginTop: 5,
   },
 });
 
