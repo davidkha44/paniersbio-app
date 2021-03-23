@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../constants/Colors';
 
 import HomeNavigation from '../components/HomeNavigation';
-import SubscriptionScreen from '../screens/App/SubscriptionScreen';
+import PayNavigation from '../components/PayNavigation';
 import FavouriteScreen from '../screens/App/FavouriteScreen';
 import SettingsScreen from '../screens/App/SettingsScreen';
 import RecipeScreen from '../screens/App/RecipeScreen';
@@ -49,7 +49,7 @@ const AppNavigation = () => {
       <Tab.Screen name="Home" component={HomeNavigation} />
       <Tab.Screen name="Recipes" component={RecipeScreen} />
       <Tab.Screen name="Favourites" component={FavouriteScreen} />
-      <Tab.Screen name="Subscription" component={SubscriptionScreen} />
+      <Tab.Screen name="Subscription" component={PayNavigation} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
