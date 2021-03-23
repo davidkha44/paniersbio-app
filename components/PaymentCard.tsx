@@ -6,12 +6,13 @@ interface Props {
   title: string;
   image: string;
   bgColor: string;
+  onPress: () => void;
 }
 
-const PaymentCard = ({ title, image, bgColor }: Props) => {
+const PaymentCard = ({ title, image, bgColor, onPress }: Props) => {
   const bgStyle = { backgroundColor: bgColor };
   return (
-    <TouchableNativeFeedback onPress={() => console.log('Pay up')}>
+    <TouchableNativeFeedback onPress={onPress}>
       <View style={[styles.container, bgStyle]}>
         <Ionicons name={image} size={20} color="white" />
         <Text style={styles.text}>{title}</Text>

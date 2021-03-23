@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 import PaymentCard from '../../components/PaymentCard';
 import PriceCard from '../../components/PriceCard';
 import Colors from '../../constants/Colors';
@@ -12,6 +13,7 @@ interface subs {
 }
 
 const SubscriptionScreen = () => {
+  const navigation = useNavigation();
   const renderVegCard = ({ item }: { item: subs }) => {
     const { name, subtitle, price } = item;
     return <PriceCard name={name} subtitle={subtitle} price={price} />;
@@ -53,11 +55,13 @@ const SubscriptionScreen = () => {
           title="Payer avec Lydia"
           image="lock-closed"
           bgColor="#5C91C9"
+          onPress={() => console.log('Payer avec Lydia')}
         />
         <PaymentCard
           title="Payer par carte"
           image="card-outline"
           bgColor={Colors.primary}
+          onPress={() => navigation.navigate('CardPayment')}
         />
       </View>
     </View>
