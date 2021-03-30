@@ -1,9 +1,10 @@
 import React from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, Linking, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import PaymentCard from '../../components/PaymentCard';
 import PriceCard from '../../components/PriceCard';
 import Colors from '../../constants/Colors';
+import axios from 'axios';
 
 interface subs {
   _id: number;
@@ -38,6 +39,27 @@ const SubscriptionScreen = () => {
       price: 80,
     },
   ];
+
+  const reqPayment = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('amount', '10');
+      formData.append('currency', 'EUR');
+      formData.append('type', 'phone');
+      formData.append('recipient', '+33621491838');
+      formData.append('vendor_token', '60478d4836310253849436');
+      formData.append('payment_method', 'cb');
+
+      const res = await axios.post(
+        'https://homologation.lydia-app.com/api/request/do',
+        formData,
+      );
+
+      await Linking.openURL(res.data.mobile_url);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <View>
       <Image
@@ -55,7 +77,7 @@ const SubscriptionScreen = () => {
           title="Payer avec Lydia"
           image="lock-closed"
           bgColor="#5C91C9"
-          onPress={() => console.log('Payer avec Lydia')}
+          onPress={() => reqPayment()}
         />
         <PaymentCard
           title="Payer par carte"
