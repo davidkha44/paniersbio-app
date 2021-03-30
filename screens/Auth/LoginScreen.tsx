@@ -57,13 +57,16 @@ const LoginScreen = () => {
     if (error !== 0) {
       return -1;
     }
-    let res = await axios.post(`${API_KEY}/api/user/login/`, {
-      email: userEmail,
-      password: userPassword,
-    });
-
-    let data = res.data;
-    auth.login(data._id, data.token);
+    try {
+      let res = await axios.post(`${API_KEY}/api/user/login/`, {
+        email: userEmail,
+        password: userPassword,
+      });
+      let data = res.data;
+      auth.login(data._id, data.token);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

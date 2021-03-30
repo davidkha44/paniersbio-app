@@ -33,10 +33,11 @@ export default function App() {
         if (credentials) {
           setToken(credentials.password);
           setUserId(credentials.username);
+          console.log('Credentials found');
         } else {
           console.log('No credentials stored');
         }
-      } catch (error) {
+      } catch (err) {
         console.log('Keychain could not be accessed');
       }
     };

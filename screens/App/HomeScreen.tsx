@@ -15,13 +15,17 @@ const HomeScreen = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(`${API_KEY}/api/panier/week/`, {
-        headers: {
-          authorization: 'Bearer ' + auth.token,
-        },
-      });
-      let data = result.data;
-      setWEEKLYVEGGIES(data.vegetables);
+      try {
+        const result = await axios.get(`${API_KEY}/api/panier/week/`, {
+          headers: {
+            authorization: 'Bearer ' + auth.token,
+          },
+        });
+        let data = result.data;
+        setWEEKLYVEGGIES(data.vegetables);
+      } catch (err) {
+        console.log(err);
+      }
     };
     fetchData();
     setIsFetched(true);
