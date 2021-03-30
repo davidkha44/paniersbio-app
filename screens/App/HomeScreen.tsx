@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {
-  StyleSheet,
-  View,
-  Image,
-  TextInput,
-  FlatList,
-  Text,
-} from 'react-native';
+import { StyleSheet, View, Image, FlatList, Text } from 'react-native';
 import axios from 'axios';
 import { API_KEY } from '@env';
 
@@ -14,16 +7,11 @@ import AuthContext from '../../components/Auth/AuthContext';
 import CardPlaceholder from '../../components/CardPlaceholder';
 import VeggieCard from '../../components/VeggieCard';
 import DismissKeyboard from '../../components/DismissKeyboard';
-import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const onChangeSearch = (query: string) => setSearchQuery(query);
-
   const [WEEKLYVEGGIES, setWEEKLYVEGGIES] = useState<veggies[]>([]);
   const [isFetched, setIsFetched] = useState(false);
   const auth = useContext(AuthContext);
-  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +24,7 @@ const HomeScreen = () => {
       setWEEKLYVEGGIES(data.vegetables);
     };
     fetchData();
-    setTimeout(() => setIsFetched(true), 1000);
+    setIsFetched(true);
   }, [auth.token]);
 
   const renderPlaceholders = () => {
@@ -71,13 +59,6 @@ const HomeScreen = () => {
         <Image
           source={require('../../assets/images/countryside.png')}
           style={styles.image}
-        />
-        <TextInput
-          placeholder="Chercher une recette ..."
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-          style={styles.searchbar}
-          onFocus={() => navigation.navigate('Search')}
         />
         <Text style={styles.title}>Légumes de la semaine</Text>
         {isFetched ? renderList() : renderPlaceholders()}
