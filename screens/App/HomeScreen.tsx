@@ -12,7 +12,6 @@ const HomeScreen = () => {
   const [WEEKLYVEGGIES, setWEEKLYVEGGIES] = useState<veggies[]>([]);
   const [isFetched, setIsFetched] = useState(false);
   const auth = useContext(AuthContext);
-  const [error, setError] = useState<Boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,13 +23,12 @@ const HomeScreen = () => {
         });
         let data = result.data;
         setWEEKLYVEGGIES(data.vegetables);
+        setIsFetched(true);
       } catch (err) {
         console.log(err);
-        setError(true);
       }
     };
     fetchData();
-    setIsFetched(true);
   }, [auth.token]);
 
   const renderPlaceholders = () => {
@@ -59,17 +57,6 @@ const HomeScreen = () => {
     );
   };
 
-  const renderError = () => {
-    return (
-      <View>
-        <Image
-          source={require('../../assets/images/error.png')}
-          style={styles.errorImage}
-        />
-      </View>
-    );
-  };
-
   return (
     <DismissKeyboard>
       <View>
@@ -79,7 +66,6 @@ const HomeScreen = () => {
         />
         <Text style={styles.title}>Légumes de la semaine</Text>
         {isFetched ? renderList() : renderPlaceholders()}
-        {error ? renderError() : renderPlaceholders()}
       </View>
     </DismissKeyboard>
   );
