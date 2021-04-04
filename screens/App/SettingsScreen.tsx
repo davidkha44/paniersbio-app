@@ -1,9 +1,19 @@
 import React, { useContext } from 'react';
 import { StyleSheet, Text, View, TouchableNativeFeedback } from 'react-native';
 import AuthContext from '../../components/Auth/AuthContext';
+import email from 'react-native-email';
 
 const SettingsScreen = () => {
   const auth = useContext(AuthContext);
+
+  const handleEmail = () => {
+    const to = ['david.kha@ensea.fr'];
+    try {
+      email(to);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Général</Text>
@@ -19,7 +29,7 @@ const SettingsScreen = () => {
       </TouchableNativeFeedback>
 
       <Text style={styles.title}>Contact</Text>
-      <TouchableNativeFeedback>
+      <TouchableNativeFeedback onPress={() => handleEmail()}>
         <View style={styles.parameter}>
           <Text>Email Les Paniers Bio Support</Text>
         </View>
