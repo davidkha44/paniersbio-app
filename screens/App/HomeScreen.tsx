@@ -16,7 +16,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get(`http://${API_KEY}/api/panier/week/`, {
+        const result = await axios.get(`${API_KEY}/api/panier/week/`, {
           headers: {
             authorization: 'Bearer ' + auth.token,
           },

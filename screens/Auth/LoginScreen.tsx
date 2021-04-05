@@ -60,7 +60,7 @@ const LoginScreen = () => {
     try {
       console.log(`${API_KEY}/api/user/login/`);
 
-      let res = await axios.post(`http://${API_KEY}/api/user/login/`, {
+      let res = await axios.post(`${API_KEY}/api/user/login/`, {
         email: userEmail,
         password: userPassword,
       });
@@ -68,7 +68,7 @@ const LoginScreen = () => {
       auth.login(data._id, data.token);
     } catch (err) {
       console.log(err);
-      setPasswordError('Une erreur est survenu. Veuillez réessayer plus tard');
+      setPasswordError(err.response.data);
       setPasswordStyle({ borderColor: Colors.inactive, color: 'black' });
     }
   };

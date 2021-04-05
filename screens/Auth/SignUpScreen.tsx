@@ -73,12 +73,14 @@ const SignUpScreen = () => {
       return -1;
     }
     try {
-      await axios.post(`http://${API_KEY}/api/user/signup/`, {
+      console.log(API_KEY);
+
+      await axios.post(`${API_KEY}/api/user/signup/`, {
         email: userEmail,
         password: userPassword,
       });
 
-      let res = await axios.post(`http://${API_KEY}/api/user/login/`, {
+      let res = await axios.post(`${API_KEY}/api/user/login/`, {
         email: userEmail,
         password: userPassword,
       });
@@ -86,7 +88,7 @@ const SignUpScreen = () => {
       let data = res.data;
       auth.login(data._id, data.token);
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data);
     }
   };
   return (
