@@ -1,61 +1,76 @@
-import React from 'react';
-import { FlatList, Image, Linking, StyleSheet, Text, View } from 'react-native';
-import { useNavigation } from '@react-navigation/core';
+import React, { useContext } from 'react';
+import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import axios from 'axios';
+import { API_KEY } from '@env';
+
 import PaymentCard from '../../components/PaymentCard';
 import PriceCard from '../../components/PriceCard';
-import Colors from '../../constants/Colors';
-import axios from 'axios';
+import AuthContext from '../../components/Auth/AuthContext';
 
 interface subs {
   _id: number;
   name: string;
   subtitle: string;
   price: number;
+  selected: boolean;
 }
 
 const SubscriptionScreen = () => {
-  const navigation = useNavigation();
+  const auth = useContext(AuthContext);
+  //const [totalToPay, setTotalToPay] = useState<Number>(0);
+  const totalToPay = 0;
+
   const renderVegCard = ({ item }: { item: subs }) => {
-    const { name, subtitle, price } = item;
-    return <PriceCard name={name} subtitle={subtitle} price={price} />;
+    const { name, subtitle, price, selected } = item;
+    return (
+      <PriceCard
+        name={name}
+        subtitle={subtitle}
+        price={price}
+        selected={selected}
+      />
+    );
   };
+
   const SUBSCRIPTION: subs[] = [
     {
       _id: 1,
       name: 'Panier unitaire',
       subtitle: '1 Panier',
       price: 5,
+      selected: false,
     },
     {
       _id: 2,
       name: 'Abonnement 1 mois',
       subtitle: '4 Paniers',
       price: 22,
+      selected: false,
     },
     {
       _id: 3,
       name: 'Abonnnement 4 mois',
       subtitle: '16 Paniers',
       price: 80,
+      selected: false,
     },
   ];
 
   const reqPayment = async () => {
     try {
-      const formData = new FormData();
-      formData.append('amount', '10');
-      formData.append('currency', 'EUR');
-      formData.append('type', 'phone');
-      formData.append('recipient', '+33621491838');
-      formData.append('vendor_token', '60478d4836310253849436');
-      formData.append('payment_method', 'cb');
-
       const res = await axios.post(
-        'https://homologation.lydia-app.com/api/request/do',
-        formData,
+        `${API_KEY}/api/subscription`,
+        {
+          amount: totalToPay,
+        },
+        {
+          headers: {
+            authorization: 'Bearer ' + auth.token,
+          },
+        },
       );
 
-      await Linking.openURL(res.data.mobile_url);
+      console.log(res.data.url);
     } catch (err) {
       console.log(err);
     }
@@ -74,16 +89,10 @@ const SubscriptionScreen = () => {
       />
       <View style={styles.payView}>
         <PaymentCard
-          title="Payer avec Lydia"
+          title="Payer"
           image="lock-closed"
           bgColor="#5C91C9"
           onPress={() => reqPayment()}
-        />
-        <PaymentCard
-          title="Payer par carte"
-          image="card-outline"
-          bgColor={Colors.primary}
-          onPress={() => navigation.navigate('CardPayment')}
         />
       </View>
     </View>

@@ -1,18 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native';
+import Colors from '../constants/Colors';
 
 interface Props {
   name: string;
   subtitle: string;
   price: number;
+  selected: boolean;
 }
 
-const PriceCard = ({ name, subtitle, price }: Props) => {
+const PriceCard = ({ name, subtitle, price, selected }: Props) => {
+  const [select, setSelect] = useState(selected);
+  const selectStyle = {
+    borderWidth: select ? 1 : 0,
+    borderColor: select ? Colors.primary : '',
+  };
+
   return (
     <TouchableNativeFeedback
-      onPress={() => console.log('Pressed')}
+      onPress={() => setSelect(!select)}
       useForeground={true}>
-      <View style={styles.container}>
+      <View style={[styles.container, selectStyle]}>
         <View style={styles.titleView}>
           <Text style={styles.cardTitle}>{name}</Text>
           <Text style={styles.cardSubtitle}>{subtitle}</Text>
@@ -46,12 +54,12 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontFamily: 'OpenSans-Bold',
     fontSize: 18,
-    marginLeft: '5%',
+    marginLeft: '10%',
     color: 'black',
   },
   cardSubtitle: {
     fontFamily: 'OpenSans-Regular',
-    marginLeft: '5%',
+    marginLeft: '10%',
     color: 'black',
   },
 });
