@@ -68,8 +68,6 @@ const LoginScreen = () => {
       auth.login(data._id, data.token);
     } catch (err) {
       console.log(err);
-      setPasswordError(err.response.data);
-      setPasswordStyle({ borderColor: Colors.inactive, color: 'black' });
     }
   };
 

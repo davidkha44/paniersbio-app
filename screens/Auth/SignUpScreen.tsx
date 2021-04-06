@@ -88,7 +88,7 @@ const SignUpScreen = () => {
       let data = res.data;
       auth.login(data._id, data.token);
     } catch (err) {
-      console.log(err.response.data);
+      console.log(err);
     }
   };
   return (
