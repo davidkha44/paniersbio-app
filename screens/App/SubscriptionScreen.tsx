@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
 
 import PaymentCard from '../../components/PaymentCard';
@@ -10,22 +10,25 @@ interface subs {
   name: string;
   subtitle: string;
   price: number;
-  selected: boolean;
+  onSelect: (arg0: boolean) => void;
+  parentSelect: boolean;
 }
 
 const SubscriptionScreen = () => {
   //const auth = useContext(AuthContext);
   //const [totalToPay, setTotalToPay] = useState<Number>(0);
   const totalToPay = 0;
+  const [select, setSelect] = useState(false);
 
   const renderVegCard = ({ item }: { item: subs }) => {
-    const { name, subtitle, price, selected } = item;
+    const { name, subtitle, price, onSelect, parentSelect } = item;
     return (
       <PriceCard
         name={name}
         subtitle={subtitle}
         price={price}
-        selected={selected}
+        onSelect={onSelect}
+        parentSelect={parentSelect}
       />
     );
   };
@@ -36,21 +39,24 @@ const SubscriptionScreen = () => {
       name: 'Panier unitaire',
       subtitle: '1 Panier',
       price: 5,
-      selected: false,
+      onSelect: sel => setSelect(sel),
+      parentSelect: select,
     },
     {
       _id: 2,
       name: 'Abonnement 1 mois',
       subtitle: '4 Paniers',
       price: 22,
-      selected: false,
+      onSelect: sel => setSelect(sel),
+      parentSelect: select,
     },
     {
       _id: 3,
       name: 'Abonnnement 4 mois',
       subtitle: '16 Paniers',
       price: 80,
-      selected: false,
+      onSelect: sel => setSelect(sel),
+      parentSelect: select,
     },
   ];
 

@@ -6,19 +6,38 @@ interface Props {
   name: string;
   subtitle: string;
   price: number;
-  selected: boolean;
+  onSelect: (arg0: boolean) => void;
+  parentSelect: boolean;
 }
 
-const PriceCard = ({ name, subtitle, price, selected }: Props) => {
-  const [select, setSelect] = useState(selected);
+const PriceCard = ({
+  name,
+  subtitle,
+  price,
+  onSelect,
+  parentSelect,
+}: Props) => {
+  const [select, setSelect] = useState(false);
   const selectStyle = {
     borderWidth: select ? 1 : 0,
     borderColor: select ? Colors.primary : '',
   };
 
+  const selectHandler = () => {
+    if (!parentSelect) {
+      onSelect(true);
+      setSelect(true);
+    } else if (parentSelect && select) {
+      onSelect(false);
+      setSelect(false);
+    } else {
+      setSelect(false);
+    }
+  };
+
   return (
     <TouchableNativeFeedback
-      onPress={() => setSelect(!select)}
+      onPress={() => selectHandler()}
       useForeground={true}>
       <View style={[styles.container, selectStyle]}>
         <View style={styles.titleView}>
