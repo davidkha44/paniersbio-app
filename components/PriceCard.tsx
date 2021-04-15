@@ -6,33 +6,28 @@ interface Props {
   name: string;
   subtitle: string;
   price: number;
-  onSelect: (arg0: boolean) => void;
-  parentSelect: boolean;
+  index: number;
+  selectedArray: boolean[];
+  setSelectHandler: (arg0: number) => void;
 }
 
 const PriceCard = ({
   name,
   subtitle,
   price,
-  onSelect,
-  parentSelect,
+  index,
+  selectedArray,
+  setSelectHandler,
 }: Props) => {
-  const [select, setSelect] = useState(false);
+  const [, setSelect] = useState(selectedArray[index - 1]);
   const selectStyle = {
-    borderWidth: select ? 1 : 0,
-    borderColor: select ? Colors.primary : '',
+    borderWidth: selectedArray[index - 1] ? 1 : 0,
+    borderColor: selectedArray[index - 1] ? Colors.primary : '',
   };
 
   const selectHandler = () => {
-    if (!parentSelect) {
-      onSelect(true);
-      setSelect(true);
-    } else if (parentSelect && select) {
-      onSelect(false);
-      setSelect(false);
-    } else {
-      setSelect(false);
-    }
+    setSelectHandler(index);
+    selectedArray[index] ? setSelect(true) : setSelect(false);
   };
 
   return (

@@ -10,27 +10,49 @@ interface subs {
   name: string;
   subtitle: string;
   price: number;
-  onSelect: (arg0: boolean) => void;
-  parentSelect: boolean;
+  index: number;
+  selectedArray: boolean[];
+  setSelectHandler: (arg0: number) => void;
 }
 
 const SubscriptionScreen = () => {
   //const auth = useContext(AuthContext);
-  //const [totalToPay, setTotalToPay] = useState<Number>(0);
-  const totalToPay = 0;
-  const [select, setSelect] = useState(false);
+  const [totalToPay, setTotalToPay] = useState<number>(0);
+  const [selectArray, setSelectArray] = useState<boolean[]>([
+    false,
+    false,
+    false,
+  ]);
 
   const renderVegCard = ({ item }: { item: subs }) => {
-    const { name, subtitle, price, onSelect, parentSelect } = item;
+    const {
+      name,
+      subtitle,
+      price,
+      index,
+      selectedArray,
+      setSelectHandler,
+    } = item;
     return (
       <PriceCard
         name={name}
         subtitle={subtitle}
         price={price}
-        onSelect={onSelect}
-        parentSelect={parentSelect}
+        index={index}
+        selectedArray={selectedArray}
+        setSelectHandler={setSelectHandler}
       />
     );
+  };
+  const selectHandler = (index: number) => {
+    const newArray = new Array(3).fill(false);
+    newArray[index - 1] = true;
+    setSelectArray(newArray);
+    newArray[0]
+      ? setTotalToPay(5)
+      : newArray[1]
+      ? setTotalToPay(22)
+      : setTotalToPay(80);
   };
 
   const SUBSCRIPTION: subs[] = [
@@ -39,31 +61,34 @@ const SubscriptionScreen = () => {
       name: 'Panier unitaire',
       subtitle: '1 Panier',
       price: 5,
-      onSelect: sel => setSelect(sel),
-      parentSelect: select,
+      index: 1,
+      selectedArray: selectArray,
+      setSelectHandler: selectHandler,
     },
     {
       _id: 2,
       name: 'Abonnement 1 mois',
       subtitle: '4 Paniers',
       price: 22,
-      onSelect: sel => setSelect(sel),
-      parentSelect: select,
+      index: 2,
+      selectedArray: selectArray,
+      setSelectHandler: selectHandler,
     },
     {
       _id: 3,
       name: 'Abonnnement 4 mois',
       subtitle: '16 Paniers',
       price: 80,
-      onSelect: sel => setSelect(sel),
-      parentSelect: select,
+      index: 3,
+      selectedArray: selectArray,
+      setSelectHandler: selectHandler,
     },
   ];
 
-  const reqPayment = async () => {
+  const reqPayment = () => {
     console.log(totalToPay);
-    console.log('Pay up !');
   };
+
   return (
     <View>
       <Image
@@ -103,7 +128,7 @@ const styles = StyleSheet.create({
   },
   payView: {
     justifyContent: 'center',
-    marginTop: 5,
+    marginTop: 15,
   },
 });
 
