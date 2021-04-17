@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, StyleSheet, TextInput, Text, Image } from 'react-native';
 import DismissKeyboard from '../../components/DismissKeyboard';
+import { useNavigation } from '@react-navigation/core';
+
 import Colors from '../../constants/Colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import PaymentCard from '../../components/PaymentCard';
-import { useNavigation } from '@react-navigation/core';
 
 const CardPaymentScreen = () => {
   const navigation = useNavigation();

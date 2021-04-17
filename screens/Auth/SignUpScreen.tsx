@@ -1,13 +1,13 @@
 import React, { useState, useRef, useContext } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import AuthContext from '../../components/Auth/AuthContext';
+import { API_KEY } from '@env';
+import axios from 'axios';
 
+import AuthContext from '../../components/Auth/AuthContext';
 import Colors from '../../constants/Colors';
 import Button from '../../components/Button';
 import DismissKeyboard from '../../components/DismissKeyboard';
-import { API_KEY } from '@env';
-import axios from 'axios';
 
 const SignUpScreen = () => {
   const navigation = useNavigation();

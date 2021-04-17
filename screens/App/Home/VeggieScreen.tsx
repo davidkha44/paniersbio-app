@@ -35,9 +35,6 @@ const VeggieScreen = () => {
           fermentum arcu lobortis.
         </Text>
       </View>
-      <View style={styles.description}>
-        <Text style={styles.subtitle}>Recettes</Text>
-      </View>
     </View>
   );
 };

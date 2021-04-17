@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { API_KEY } from '@env';
+import axios from 'axios';
+import React, { useContext, useState } from 'react';
+import { FlatList, Image, Linking, StyleSheet, Text, View } from 'react-native';
+import AuthContext from '../../components/Auth/AuthContext';
 
 import PaymentCard from '../../components/PaymentCard';
 import PriceCard from '../../components/PriceCard';
@@ -16,7 +19,7 @@ interface subs {
 }
 
 const SubscriptionScreen = () => {
-  //const auth = useContext(AuthContext);
+  const auth = useContext(AuthContext);
   const [totalToPay, setTotalToPay] = useState<number>(0);
   const [selectArray, setSelectArray] = useState<boolean[]>([
     false,
@@ -85,8 +88,27 @@ const SubscriptionScreen = () => {
     },
   ];
 
-  const reqPayment = () => {
-    console.log(totalToPay);
+  const reqPayment = async () => {
+    try {
+      const res = await axios.post(
+        `${API_KEY}/api/subscription`,
+        {
+          amount: totalToPay,
+          recipient: '+33621491838',
+        },
+        {
+          headers: {
+            authorization: 'Bearer ' + auth.token,
+          },
+        },
+      );
+      console.log(res.data.url);
+      console.log(res.data.request_uuid);
+
+      await Linking.openURL(res.data.url);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
