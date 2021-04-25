@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import Colors from '../constants/Colors';
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useDerivedValue,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 interface Props {
   name: string;
@@ -20,29 +28,62 @@ const PriceCard = ({
   setSelectHandler,
 }: Props) => {
   const [, setSelect] = useState(selectedArray[index - 1]);
-  const selectStyle = {
-    borderWidth: selectedArray[index - 1] ? 1 : 0,
-    borderColor: selectedArray[index - 1] ? Colors.primary : '',
+  const theme = useTheme();
+
+  //Animation
+  const animation = useSharedValue(0);
+  const animationColor = useDerivedValue(() => {
+    return interpolateColor(
+      animation.value,
+      [0, 1],
+      [theme.colors.card, Colors.primary],
+    );
+  });
+
+  const startAnimation = () => {
+    animation.value = withTiming(1, {
+      duration: 2000,
+    });
   };
+  const animationStyle = useAnimatedStyle(() => {
+    return {
+      backgroundColor: animationColor.value,
+    };
+  });
+
+  // const selectStyle = {
+  //   // borderWidth: selectedArray[index - 1] ? 2 : 0,
+  //   // borderColor: selectedArray[index - 1] ? Colors.primary : '',
+  //   backgroundColor: selectedArray[index - 1]
+  //     ? Colors.primary
+  //     : theme.colors.card,
+  // };
 
   const selectHandler = () => {
     setSelectHandler(index);
     selectedArray[index] ? setSelect(true) : setSelect(false);
+    startAnimation();
   };
 
   return (
     <TouchableNativeFeedback
       onPress={() => selectHandler()}
       useForeground={true}>
-      <View style={[styles.container, selectStyle]}>
+      <Animated.View style={[styles.container, animationStyle]}>
         <View style={styles.titleView}>
-          <Text style={styles.cardTitle}>{name}</Text>
-          <Text style={styles.cardSubtitle}>{subtitle}</Text>
+          <Text style={[styles.cardTitle, { color: theme.colors.text }]}>
+            {name}
+          </Text>
+          <Text style={[styles.cardSubtitle, { color: theme.colors.text }]}>
+            {subtitle}
+          </Text>
         </View>
         <View style={styles.amountView}>
-          <Text style={styles.cardSubtitle}>{price} €</Text>
+          <Text style={[styles.cardSubtitle, { color: theme.colors.text }]}>
+            {price} €
+          </Text>
         </View>
-      </View>
+      </Animated.View>
     </TouchableNativeFeedback>
   );
 };

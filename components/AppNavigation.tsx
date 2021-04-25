@@ -1,6 +1,5 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../constants/Colors';
 
@@ -9,10 +8,12 @@ import HomeNavigation from '../components/HomeNavigation';
 // import RecipeScreen from '../screens/App/RecipeScreen';
 import SettingsScreen from '../screens/App/SettingsScreen';
 import SubscriptionScreen from '../screens/App/SubscriptionScreen';
+import { useTheme } from '@react-navigation/native';
 
 const Tab = createMaterialBottomTabNavigator();
 
 const AppNavigation = () => {
+  const theme = useTheme();
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -45,7 +46,7 @@ const AppNavigation = () => {
       })}
       activeColor={Colors.primary}
       inactiveColor={Colors.inactive}
-      barStyle={styles.barStyle}>
+      barStyle={{ backgroundColor: theme.colors.card }}>
       <Tab.Screen name="Home" component={HomeNavigation} />
       {/* <Tab.Screen name="Recipes" component={RecipeScreen} />
       <Tab.Screen name="Favourites" component={FavouriteScreen} /> */}
@@ -54,11 +55,5 @@ const AppNavigation = () => {
     </Tab.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  barStyle: {
-    backgroundColor: 'white',
-  },
-});
 
 export default AppNavigation;

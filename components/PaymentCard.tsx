@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     margin: 5,
     justifyContent: 'center',
     flexDirection: 'row',
+    width: '45%',
   },
   text: {
     color: 'white',

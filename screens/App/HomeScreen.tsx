@@ -7,11 +7,13 @@ import AuthContext from '../../components/Auth/AuthContext';
 import CardPlaceholder from '../../components/CardPlaceholder';
 import VeggieCard from '../../components/VeggieCard';
 import DismissKeyboard from '../../components/DismissKeyboard';
+import { useTheme } from '@react-navigation/native';
 
 const HomeScreen = () => {
   const [WEEKLYVEGGIES, setWEEKLYVEGGIES] = useState<veggies[]>([]);
   const [isFetched, setIsFetched] = useState(false);
   const auth = useContext(AuthContext);
+  const theme = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,7 +66,9 @@ const HomeScreen = () => {
           source={require('../../assets/images/countryside.png')}
           style={styles.image}
         />
-        <Text style={styles.title}>Légumes de la semaine</Text>
+        <Text style={[styles.title, { color: theme.colors.text }]}>
+          Légumes de la semaine
+        </Text>
         {isFetched ? renderList() : renderPlaceholders()}
       </View>
     </DismissKeyboard>

@@ -1,4 +1,5 @@
 import { API_KEY } from '@env';
+import { useTheme } from '@react-navigation/native';
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { FlatList, Image, Linking, StyleSheet, Text, View } from 'react-native';
@@ -6,6 +7,7 @@ import AuthContext from '../../components/Auth/AuthContext';
 
 import PaymentCard from '../../components/PaymentCard';
 import PriceCard from '../../components/PriceCard';
+import Colors from '../../constants/Colors';
 //import AuthContext from '../../components/Auth/AuthContext';
 
 interface subs {
@@ -26,6 +28,7 @@ const SubscriptionScreen = () => {
     false,
     false,
   ]);
+  const theme = useTheme();
 
   const renderVegCard = ({ item }: { item: subs }) => {
     const {
@@ -88,13 +91,37 @@ const SubscriptionScreen = () => {
     },
   ];
 
-  const reqPayment = async () => {
+  const reqPaymentLydia = async () => {
     try {
       const res = await axios.post(
         `${API_KEY}/api/subscription`,
         {
           amount: totalToPay,
           recipient: '+33621491838',
+          payment_method: 'lydia',
+        },
+        {
+          headers: {
+            authorization: 'Bearer ' + auth.token,
+          },
+        },
+      );
+      console.log(res.data.url);
+      console.log(res.data.request_uuid);
+
+      await Linking.openURL(res.data.url);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const reqPaymentCB = async () => {
+    try {
+      const res = await axios.post(
+        `${API_KEY}/api/subscription`,
+        {
+          amount: totalToPay,
+          recipient: '+33621491838',
+          payment_method: 'cb',
         },
         {
           headers: {
@@ -117,7 +144,9 @@ const SubscriptionScreen = () => {
         source={require('../../assets/images/shipping.png')}
         style={styles.image}
       />
-      <Text style={styles.title}>Abonnements</Text>
+      <Text style={[styles.title, { color: theme.colors.text }]}>
+        Abonnements
+      </Text>
       <FlatList
         data={SUBSCRIPTION}
         renderItem={renderVegCard}
@@ -125,10 +154,16 @@ const SubscriptionScreen = () => {
       />
       <View style={styles.payView}>
         <PaymentCard
-          title="Payer"
+          title="Payer avec Lydia"
           image="lock-closed"
           bgColor="#5C91C9"
-          onPress={() => reqPayment()}
+          onPress={() => reqPaymentLydia()}
+        />
+        <PaymentCard
+          title="Payer par CB"
+          image="wallet"
+          bgColor={Colors.primary}
+          onPress={() => reqPaymentCB()}
         />
       </View>
     </View>
@@ -150,7 +185,7 @@ const styles = StyleSheet.create({
   },
   payView: {
     justifyContent: 'center',
-    marginTop: 15,
+    marginTop: 10,
   },
 });
 
