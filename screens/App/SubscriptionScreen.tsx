@@ -1,9 +1,10 @@
 import { API_KEY } from '@env';
 import { useTheme } from '@react-navigation/native';
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FlatList, Image, Linking, StyleSheet, Text, View } from 'react-native';
 import AuthContext from '../../components/Auth/AuthContext';
+import SubsContext from '../../components/Auth/SubsContext';
 
 import PaymentCard from '../../components/PaymentCard';
 import PriceCard from '../../components/PriceCard';
@@ -16,49 +17,19 @@ interface subs {
   subtitle: string;
   price: number;
   index: number;
-  selectedArray: boolean[];
-  setSelectHandler: (arg0: number) => void;
 }
 
 const SubscriptionScreen = () => {
   const auth = useContext(AuthContext);
   const [totalToPay, setTotalToPay] = useState<number>(0);
-  const [selectArray, setSelectArray] = useState<boolean[]>([
-    false,
-    false,
-    false,
-  ]);
   const theme = useTheme();
+  const { subType } = useContext(SubsContext);
 
   const renderVegCard = ({ item }: { item: subs }) => {
-    const {
-      name,
-      subtitle,
-      price,
-      index,
-      selectedArray,
-      setSelectHandler,
-    } = item;
+    const { name, subtitle, price, index } = item;
     return (
-      <PriceCard
-        name={name}
-        subtitle={subtitle}
-        price={price}
-        index={index}
-        selectedArray={selectedArray}
-        setSelectHandler={setSelectHandler}
-      />
+      <PriceCard name={name} subtitle={subtitle} price={price} index={index} />
     );
-  };
-  const selectHandler = (index: number) => {
-    const newArray = new Array(3).fill(false);
-    newArray[index - 1] = true;
-    setSelectArray(newArray);
-    newArray[0]
-      ? setTotalToPay(5)
-      : newArray[1]
-      ? setTotalToPay(22)
-      : setTotalToPay(80);
   };
 
   const SUBSCRIPTION: subs[] = [
@@ -68,8 +39,6 @@ const SubscriptionScreen = () => {
       subtitle: '1 Panier',
       price: 5,
       index: 1,
-      selectedArray: selectArray,
-      setSelectHandler: selectHandler,
     },
     {
       _id: 2,
@@ -77,8 +46,6 @@ const SubscriptionScreen = () => {
       subtitle: '4 Paniers',
       price: 22,
       index: 2,
-      selectedArray: selectArray,
-      setSelectHandler: selectHandler,
     },
     {
       _id: 3,
@@ -86,8 +53,6 @@ const SubscriptionScreen = () => {
       subtitle: '16 Paniers',
       price: 80,
       index: 3,
-      selectedArray: selectArray,
-      setSelectHandler: selectHandler,
     },
   ];
 
@@ -137,6 +102,23 @@ const SubscriptionScreen = () => {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    switch (subType) {
+      case 1:
+        setTotalToPay(5);
+        break;
+      case 2:
+        setTotalToPay(22);
+        break;
+      case 3:
+        setTotalToPay(80);
+        break;
+      default:
+        setTotalToPay(0);
+        break;
+    }
+  }, [subType]);
 
   return (
     <View>

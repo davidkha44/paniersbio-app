@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import Colors from '../constants/Colors';
@@ -9,26 +9,19 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import SubsContext from './Auth/SubsContext';
 
 interface Props {
   name: string;
   subtitle: string;
   price: number;
   index: number;
-  selectedArray: boolean[];
-  setSelectHandler: (arg0: number) => void;
 }
 
-const PriceCard = ({
-  name,
-  subtitle,
-  price,
-  index,
-  selectedArray,
-  setSelectHandler,
-}: Props) => {
-  const [, setSelect] = useState(selectedArray[index - 1]);
+const PriceCard = ({ name, subtitle, price, index }: Props) => {
   const theme = useTheme();
+  const { setSubType, setSubsArray, subsArray } = useContext(SubsContext);
+  const [pressed, setPressed] = useState(false);
 
   //Animation
   const animation = useSharedValue(0);
@@ -40,29 +33,34 @@ const PriceCard = ({
     );
   });
 
-  const startAnimation = () => {
-    animation.value = withTiming(1, {
-      duration: 2000,
-    });
-  };
   const animationStyle = useAnimatedStyle(() => {
     return {
       backgroundColor: animationColor.value,
     };
   });
 
-  // const selectStyle = {
-  //   // borderWidth: selectedArray[index - 1] ? 2 : 0,
-  //   // borderColor: selectedArray[index - 1] ? Colors.primary : '',
-  //   backgroundColor: selectedArray[index - 1]
-  //     ? Colors.primary
-  //     : theme.colors.card,
-  // };
+  const startAnimation = () => {
+    animation.value = withTiming(1, {
+      duration: 100,
+    });
+  };
+  useEffect(() => {
+    const stopAnimation = () => {
+      animation.value = withTiming(0, {
+        duration: 1,
+      });
+    };
+    if (!subsArray[index - 1]) {
+      stopAnimation();
+    }
+  }, [animation, index, pressed, subsArray]);
 
   const selectHandler = () => {
-    setSelectHandler(index);
-    selectedArray[index] ? setSelect(true) : setSelect(false);
+    setSubType(index);
+    setSubsArray(index - 1);
     startAnimation();
+    setPressed(!pressed);
+    console.log(pressed);
   };
 
   return (

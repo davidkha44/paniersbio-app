@@ -18,6 +18,7 @@ import AppNavigation from './components/AppNavigation';
 import AuthNavigation from './components/AuthNavigation';
 import AuthContext from './components/Auth/AuthContext';
 import ThemeContext from './components/Auth/ThemeContext';
+import SubsContext from './components/Auth/SubsContext';
 
 const CombinedDarkTheme = {
   ...PaperDarkTheme,
@@ -39,7 +40,11 @@ const CombinedDefaultTheme = {
 export default function App() {
   const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<mongodb.ObjectId | null | string>(null);
+
   const [isThemeDark, setIsThemeDark] = useState(false);
+
+  const [subSelectArray, setSubSelectArray] = useState([true, false, false]);
+  const [subIndex, setSubIndex] = useState(0);
 
   let theme = isThemeDark ? CombinedDarkTheme : CombinedDefaultTheme;
 
@@ -47,12 +52,32 @@ export default function App() {
     return setIsThemeDark(!isThemeDark);
   }, [isThemeDark]);
 
+  const setSubType = useCallback(index => {
+    setSubIndex(index);
+  }, []);
+
+  const setSubsArray = useCallback((index: number) => {
+    let newArray = [false, false, false];
+    newArray[index] = !newArray[index];
+    setSubSelectArray(newArray);
+  }, []);
+
   const preferences = useMemo(
     () => ({
       toggleTheme,
       isThemeDark,
     }),
     [toggleTheme, isThemeDark],
+  );
+
+  const subs = useMemo(
+    () => ({
+      subsArray: subSelectArray,
+      setSubsArray,
+      subType: subIndex,
+      setSubType,
+    }),
+    [setSubType, setSubsArray, subIndex, subSelectArray],
   );
 
   const login = useCallback((uid, tkn) => {
@@ -102,13 +127,15 @@ export default function App() {
           login: login,
           logout: logout,
         }}>
-        <PaperProvider
-          theme={theme}
-          settings={{ icon: props => <Ionicons {...props} /> }}>
-          <NavigationContainer theme={theme}>
-            {NavComponent}
-          </NavigationContainer>
-        </PaperProvider>
+        <SubsContext.Provider value={subs}>
+          <PaperProvider
+            theme={theme}
+            settings={{ icon: props => <Ionicons {...props} /> }}>
+            <NavigationContainer theme={theme}>
+              {NavComponent}
+            </NavigationContainer>
+          </PaperProvider>
+        </SubsContext.Provider>
       </AuthContext.Provider>
     </ThemeContext.Provider>
   );
