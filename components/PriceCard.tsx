@@ -1,14 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import Colors from '../constants/Colors';
-import Animated, {
-  interpolateColor,
-  useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
 import SubsContext from './Auth/SubsContext';
 
 interface Props {
@@ -21,53 +14,23 @@ interface Props {
 const PriceCard = ({ name, subtitle, price, index }: Props) => {
   const theme = useTheme();
   const { setSubType, setSubsArray, subsArray } = useContext(SubsContext);
-  const [pressed, setPressed] = useState(false);
 
-  //Animation
-  const animation = useSharedValue(0);
-  const animationColor = useDerivedValue(() => {
-    return interpolateColor(
-      animation.value,
-      [0, 1],
-      [theme.colors.card, Colors.primary],
-    );
-  });
-
-  const animationStyle = useAnimatedStyle(() => {
-    return {
-      backgroundColor: animationColor.value,
-    };
-  });
-
-  const startAnimation = () => {
-    animation.value = withTiming(1, {
-      duration: 100,
-    });
+  const borderStyle = {
+    borderColor: subsArray[index - 1] ? Colors.primary : '',
+    borderWidth: subsArray[index - 1] ? 2 : 0,
+    backgroundColor: theme.colors.card,
   };
-  useEffect(() => {
-    const stopAnimation = () => {
-      animation.value = withTiming(0, {
-        duration: 1,
-      });
-    };
-    if (!subsArray[index - 1]) {
-      stopAnimation();
-    }
-  }, [animation, index, pressed, subsArray]);
 
   const selectHandler = () => {
     setSubType(index);
     setSubsArray(index - 1);
-    startAnimation();
-    setPressed(!pressed);
-    console.log(pressed);
   };
 
   return (
     <TouchableNativeFeedback
       onPress={() => selectHandler()}
       useForeground={true}>
-      <Animated.View style={[styles.container, animationStyle]}>
+      <View style={[styles.container, borderStyle]}>
         <View style={styles.titleView}>
           <Text style={[styles.cardTitle, { color: theme.colors.text }]}>
             {name}
@@ -81,7 +44,7 @@ const PriceCard = ({ name, subtitle, price, index }: Props) => {
             {price} €
           </Text>
         </View>
-      </Animated.View>
+      </View>
     </TouchableNativeFeedback>
   );
 };
@@ -96,7 +59,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: 'white',
+    elevation: 1,
   },
   titleView: {
     justifyContent: 'center',

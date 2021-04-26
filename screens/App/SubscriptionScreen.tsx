@@ -2,7 +2,15 @@ import { API_KEY } from '@env';
 import { useTheme } from '@react-navigation/native';
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { FlatList, Image, Linking, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  Image,
+  Linking,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+} from 'react-native';
 import AuthContext from '../../components/Auth/AuthContext';
 import SubsContext from '../../components/Auth/SubsContext';
 
@@ -121,7 +129,7 @@ const SubscriptionScreen = () => {
   }, [subType]);
 
   return (
-    <View>
+    <ScrollView>
       <Image
         source={require('../../assets/images/shipping.png')}
         style={styles.image}
@@ -148,7 +156,7 @@ const SubscriptionScreen = () => {
           onPress={() => reqPaymentCB()}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

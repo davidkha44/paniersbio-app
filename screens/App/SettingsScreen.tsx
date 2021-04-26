@@ -22,12 +22,12 @@ const SettingsScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={[styles.title, { color: theme.colors.text }]}>Général</Text>
-      <TouchableNativeFeedback>
+      {/* <TouchableNativeFeedback>
         <View
           style={[styles.parameter, { backgroundColor: theme.colors.surface }]}>
           <Text style={{ color: theme.colors.text }}>Notifications</Text>
         </View>
-      </TouchableNativeFeedback>
+      </TouchableNativeFeedback> */}
       <View style={[styles.switch, { backgroundColor: theme.colors.surface }]}>
         <Text style={{ color: theme.colors.text }}>Thème</Text>
         <TouchableNativeFeedback onPress={() => toggleTheme()}>
@@ -40,7 +40,7 @@ const SettingsScreen = () => {
         <View
           style={[styles.parameter, { backgroundColor: theme.colors.surface }]}>
           <Text style={{ color: theme.colors.text }}>
-            Email Les Paniers Bio Support
+            Envoyer un mail aux Paniers Bio
           </Text>
         </View>
       </TouchableNativeFeedback>
