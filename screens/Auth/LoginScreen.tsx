@@ -40,7 +40,7 @@ const LoginScreen = () => {
     let error = 0;
     if (userPassword.length < 5) {
       setPasswordStyle({ borderColor: 'red', color: 'red' });
-      setPasswordError('Le mot de passe doit avoir au moins 5 charactères');
+      setPasswordError('Mot de passe de 5 caractères minimum');
       error = -1;
     } else {
       setPasswordStyle({ borderColor: Colors.inactive, color: 'black' });
@@ -48,7 +48,7 @@ const LoginScreen = () => {
     }
     if (!/\S+@\S+\.\S+/.test(userEmail)) {
       setEmailStyle({ borderColor: 'red', color: 'red' });
-      setEmailError("Ce n'est pas un email valide");
+      setEmailError('Email non valide');
       error = -1;
     } else {
       setEmailStyle({ borderColor: Colors.inactive, color: 'black' });
@@ -67,7 +67,7 @@ const LoginScreen = () => {
       let data = res.data;
       auth.login(data._id, data.token);
     } catch (err) {
-      console.log(err.data);
+      setPasswordError(err.response.data.message);
     }
   };
 
@@ -91,7 +91,7 @@ const LoginScreen = () => {
             blurOnSubmit={false}
           />
           {emailError.length !== 0 ? (
-            <Text style={emailStyle}>{emailError}</Text>
+            <Text style={[emailStyle, styles.defaultError]}>{emailError}</Text>
           ) : null}
           <TextInput
             style={[styles.textInputStyle, passwordStyle]}
@@ -103,7 +103,9 @@ const LoginScreen = () => {
             onSubmitEditing={() => login()}
           />
           {passwordError.length !== 0 ? (
-            <Text style={passwordStyle}>{passwordError}</Text>
+            <Text style={[passwordStyle, styles.defaultError]}>
+              {passwordError}
+            </Text>
           ) : null}
           <Text style={styles.description}>
             Pas encore de compte ?{' '}
@@ -150,6 +152,11 @@ const styles = StyleSheet.create({
   textSignUp: {
     fontFamily: 'OpenSans-Bold',
     color: Colors.primary,
+  },
+  defaultError: {
+    marginTop: 15,
+    fontFamily: 'OpenSans-Bold',
+    color: 'red',
   },
 });
 export default LoginScreen;
