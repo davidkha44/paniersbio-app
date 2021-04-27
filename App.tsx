@@ -45,8 +45,13 @@ export default function App() {
 
   const [subSelectArray, setSubSelectArray] = useState([true, false, false]);
   const [subIndex, setSubIndex] = useState(0);
+  const [reqUUID, setReqUUID] = useState(0);
 
   let theme = isThemeDark ? CombinedDarkTheme : CombinedDefaultTheme;
+
+  const setRequestUUID = useCallback(uuid => {
+    setReqUUID(uuid);
+  }, []);
 
   const toggleTheme = useCallback(() => {
     return setIsThemeDark(!isThemeDark);
@@ -76,8 +81,17 @@ export default function App() {
       setSubsArray,
       subType: subIndex,
       setSubType,
+      requestUUID: reqUUID,
+      setRequestUUID,
     }),
-    [setSubType, setSubsArray, subIndex, subSelectArray],
+    [
+      reqUUID,
+      setRequestUUID,
+      setSubType,
+      setSubsArray,
+      subIndex,
+      subSelectArray,
+    ],
   );
 
   const login = useCallback((uid, tkn) => {

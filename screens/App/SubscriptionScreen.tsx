@@ -1,16 +1,8 @@
 import { API_KEY } from '@env';
 import { useTheme } from '@react-navigation/native';
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
-import {
-  FlatList,
-  Image,
-  Linking,
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-} from 'react-native';
+import React, { useContext, useState } from 'react';
+import { Image, Linking, StyleSheet, Text, View, FlatList } from 'react-native';
 import AuthContext from '../../components/Auth/AuthContext';
 import SubsContext from '../../components/Auth/SubsContext';
 
@@ -31,7 +23,9 @@ const SubscriptionScreen = () => {
   const auth = useContext(AuthContext);
   const [totalToPay, setTotalToPay] = useState<number>(0);
   const theme = useTheme();
-  const { subType } = useContext(SubsContext);
+  const { subType, setRequestUUID } = useContext(SubsContext);
+  // const [isPaying, setIsPaying] = useState(false);
+  // const [typeSub, setTypeSub] = useState('');
 
   const renderVegCard = ({ item }: { item: subs }) => {
     const { name, subtitle, price, index } = item;
@@ -65,6 +59,20 @@ const SubscriptionScreen = () => {
   ];
 
   const reqPaymentLydia = async () => {
+    switch (subType) {
+      case 1:
+        setTotalToPay(5);
+        break;
+      case 2:
+        setTotalToPay(22);
+        break;
+      case 3:
+        setTotalToPay(80);
+        break;
+      default:
+        setTotalToPay(0);
+        break;
+    }
     try {
       const res = await axios.post(
         `${API_KEY}/api/subscription`,
@@ -79,8 +87,7 @@ const SubscriptionScreen = () => {
           },
         },
       );
-      console.log(res.data.url);
-      console.log(res.data.request_uuid);
+      setRequestUUID(res.data.request_uuid);
 
       await Linking.openURL(res.data.url);
     } catch (err) {
@@ -88,6 +95,20 @@ const SubscriptionScreen = () => {
     }
   };
   const reqPaymentCB = async () => {
+    switch (subType) {
+      case 1:
+        setTotalToPay(5);
+        break;
+      case 2:
+        setTotalToPay(22);
+        break;
+      case 3:
+        setTotalToPay(80);
+        break;
+      default:
+        setTotalToPay(0);
+        break;
+    }
     try {
       const res = await axios.post(
         `${API_KEY}/api/subscription`,
@@ -103,7 +124,7 @@ const SubscriptionScreen = () => {
         },
       );
       console.log(res.data.url);
-      console.log(res.data.request_uuid);
+      setRequestUUID(res.data.request_uuid);
 
       await Linking.openURL(res.data.url);
     } catch (err) {
@@ -111,25 +132,8 @@ const SubscriptionScreen = () => {
     }
   };
 
-  useEffect(() => {
-    switch (subType) {
-      case 1:
-        setTotalToPay(5);
-        break;
-      case 2:
-        setTotalToPay(22);
-        break;
-      case 3:
-        setTotalToPay(80);
-        break;
-      default:
-        setTotalToPay(0);
-        break;
-    }
-  }, [subType]);
-
   return (
-    <ScrollView>
+    <View>
       <Image
         source={require('../../assets/images/shipping.png')}
         style={styles.image}
@@ -141,22 +145,24 @@ const SubscriptionScreen = () => {
         data={SUBSCRIPTION}
         renderItem={renderVegCard}
         keyExtractor={item => item._id.toString()}
+        ListFooterComponent={
+          <View style={styles.payView}>
+            <PaymentCard
+              title="Payer avec Lydia"
+              image="lock-closed"
+              bgColor="#5C91C9"
+              onPress={() => reqPaymentLydia()}
+            />
+            <PaymentCard
+              title="Payer par CB"
+              image="wallet"
+              bgColor={Colors.primary}
+              onPress={() => reqPaymentCB()}
+            />
+          </View>
+        }
       />
-      <View style={styles.payView}>
-        <PaymentCard
-          title="Payer avec Lydia"
-          image="lock-closed"
-          bgColor="#5C91C9"
-          onPress={() => reqPaymentLydia()}
-        />
-        <PaymentCard
-          title="Payer par CB"
-          image="wallet"
-          bgColor={Colors.primary}
-          onPress={() => reqPaymentCB()}
-        />
-      </View>
-    </ScrollView>
+    </View>
   );
 };
 

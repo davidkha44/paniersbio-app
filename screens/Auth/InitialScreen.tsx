@@ -13,7 +13,7 @@ const InitialScreen = () => {
         source={require('../../assets/images/gardening.png')}
         style={styles.image}
       />
-      <Text style={styles.title}>Bienvenu</Text>
+      <Text style={styles.title}>Bienvenue</Text>
       <Text style={styles.description}>
         Inscrivez-vous ou connectez-vous pour utiliser l'application
       </Text>
