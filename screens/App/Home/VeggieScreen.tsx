@@ -1,5 +1,5 @@
-import { useRoute, RouteProp } from '@react-navigation/native';
 import React from 'react';
+import { useRoute, RouteProp, useTheme } from '@react-navigation/native';
 import { Text, View, StyleSheet, ImageBackground } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -12,6 +12,7 @@ type RootStackParamList = {
 const VeggieScreen = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'Veggie'>>();
   const { name, imageUrl } = route.params;
+  const theme = useTheme();
 
   return (
     <View>
@@ -23,8 +24,10 @@ const VeggieScreen = () => {
         </LinearGradient>
       </ImageBackground>
       <View style={styles.description}>
-        <Text style={styles.subtitle}>Description</Text>
-        <Text style={styles.content}>
+        <Text style={[styles.subtitle, { color: theme.colors.text }]}>
+          Description
+        </Text>
+        <Text style={[styles.content, { color: theme.colors.text }]}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
           ultricies est malesuada tincidunt tristique. Suspendisse semper
           vulputate fringilla. Integer tempor, tortor at placerat tristique,

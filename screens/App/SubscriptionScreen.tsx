@@ -21,9 +21,9 @@ interface subs {
 
 const SubscriptionScreen = () => {
   const auth = useContext(AuthContext);
-  const [totalToPay, setTotalToPay] = useState<number>(0);
+  const [totalToPay, setTotalToPay] = useState<number>(5);
   const theme = useTheme();
-  const { subType, setRequestUUID } = useContext(SubsContext);
+  const { subType, setRequestUUID, requestUUID } = useContext(SubsContext);
   // const [isPaying, setIsPaying] = useState(false);
   // const [typeSub, setTypeSub] = useState('');
 
@@ -73,6 +73,8 @@ const SubscriptionScreen = () => {
         setTotalToPay(0);
         break;
     }
+    console.log(totalToPay);
+
     try {
       const res = await axios.post(
         `${API_KEY}/api/subscription`,
@@ -125,6 +127,7 @@ const SubscriptionScreen = () => {
       );
       console.log(res.data.url);
       setRequestUUID(res.data.request_uuid);
+      console.log(requestUUID);
 
       await Linking.openURL(res.data.url);
     } catch (err) {
