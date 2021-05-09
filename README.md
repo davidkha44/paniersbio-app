@@ -13,6 +13,6 @@ Application mobile pour les paniers bios
 
 ## Installation
 
-1 - Copier le repo git avec la commande `git clone https://github.com/davidkha44/paniersbio-app.git`
-2 - Lancer la commande `yarn start` dans une fenêtre de commande
-3 - Lancer la commande `yarn run android` dans une autre fenêtre pour lancer l'application sur un émulateur Android
+1. Copier le repo git avec la commande `git clone https://github.com/davidkha44/paniersbio-app.git`
+2. Lancer la commande `yarn start` dans une fenêtre de commande
+3. Lancer la commande `yarn run android` dans une autre fenêtre pour lancer l'application sur un émulateur Android
